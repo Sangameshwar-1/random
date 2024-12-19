@@ -1,34 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send SMS</title>
-    <script>
-        function sendSMS() {
-            var phoneNumber = document.getElementById("phone_number").value;
-            
-            fetch('/send_sms/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'phone_number=' + phoneNumber
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-            });
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Email via SMTP</title>
+  <script src="https://smtpjs.com/v3/smtp.js"></script>  <!-- SMTP.js library -->
 </head>
 <body>
-    <h1>Send SMS Using Twilio</h1>
-    <form method="POST" onsubmit="event.preventDefault(); sendSMS();">
-        {% csrf_token %}
-        <label for="phone_number">Phone Number:</label>
-        <input type="text" id="phone_number" name="phone_number" placeholder="+1234567890">
-        <button type="submit">Send SMS</button>
-    </form>
+  <h1>Send Email via Outlook SMTP</h1>
+
+  <!-- Form to Send an Email -->
+  <form id="emailForm">
+    <label for="to">Recipient Email:</label><br>
+    <input type="email" id="to" name="to" required><br><br>
+
+    <label for="subject">Subject:</label><br>
+    <input type="text" id="subject" name="subject" required><br><br>
+
+    <label for="body">Body:</label><br>
+    <textarea id="body" name="body" rows="4" required></textarea><br><br>
+
+    <button type="button" onclick="sendEmail()">Send Email</button>
+  </form>
+
+  <script>
+    function sendEmail() {
+      const to = document.getElementById("to").value;
+      const subject = document.getElementById("subject").value;
+      const body = document.getElementById("body").value;
+
+      // Send email using SMTP.js and Outlook's SMTP server
+      Email.send({
+        Host: "smtp.office365.com", // Outlook SMTP server
+        Username: "sangameshwarsale@outlook.com", // Replace with your Outlook email
+        Password: "Sangameshwar@01", // Replace with your Outlook app password
+        To: to, // Email recipient from the form
+        From: "salesangameshwar1@gmail.com.com", // Your Outlook email
+        Subject: subject, // Email subject from the form
+        Body: body // Email body from the form
+      })
+      .then(function(message) {
+        alert("Email sent successfully!");
+      })
+      .catch(function(error) {
+        alert("Failed to send email. Error: " + error);
+      });
+    }
+  </script>
 </body>
 </html>
