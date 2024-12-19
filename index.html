@@ -1,51 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Send Email via SMTP</title>
-  <script src="https://smtpjs.com/v3/smtp.js"></script>  <!-- SMTP.js library -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .product {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            text-align: center;
+        }
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .product-price {
+            font-size: 16px;
+            color: #28a745;
+        }
+    </style>
 </head>
 <body>
-  <h1>Send Email via Outlook SMTP</h1>
 
-  <!-- Form to Send an Email -->
-  <form id="emailForm">
-    <label for="to">Recipient Email:</label><br>
-    <input type="email" id="to" name="to" required><br><br>
+    <h1>Product List</h1>
+    <div class="product-container">
+        <div class="product">
+            <div class="name">Product 1</div>
+            <div class="price">$25.99</div>
+        </div>
+        <div class="product">
+            <div class="name">Product 2</div>
+            <div class="price">$30.00</div>
+        </div>
+        <div class="product">
+            <div class="name">Product 3</div>
+            <div class="price">$15.49</div>
+        </div>
+        <div class="product">
+            <div class="name">Product 4</div>
+            <div class="price">$20.00</div>
+        </div>
+        <div class="product">
+            <div class="name">Product 5</div>
+            <div class="price">$50.99</div>
+        </div>
+    </div>
 
-    <label for="subject">Subject:</label><br>
-    <input type="text" id="subject" name="subject" required><br><br>
-
-    <label for="body">Body:</label><br>
-    <textarea id="body" name="body" rows="4" required></textarea><br><br>
-
-    <button type="button" onclick="sendEmail()">Send Email</button>
-  </form>
-
-  <script>
-    function sendEmail() {
-      const to = document.getElementById("to").value;
-      const subject = document.getElementById("subject").value;
-      const body = document.getElementById("body").value;
-
-      // Send email using SMTP.js and Outlook's SMTP server
-      Email.send({
-        Host: "smtp.office365.com", // Outlook SMTP server
-        Username: "sangameshwarsale@outlook.com", // Replace with your Outlook email
-        Password: "Sangameshwar@01", // Replace with your Outlook app password
-        To: to, // Email recipient from the form
-        From: "sangameshwarsale@outlook.com", // Your Outlook email
-        Subject: subject, // Email subject from the form
-        Body: body // Email body from the form
-      })
-      .then(function(message) {
-        alert("Email sent successfully!");
-      })
-      .catch(function(error) {
-        alert("Failed to send email. Error: " + error);
-      });
-    }
-  </script>
 </body>
 </html>
