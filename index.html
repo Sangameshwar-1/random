@@ -15,9 +15,10 @@
     <textarea name="message" placeholder="Your Message"></textarea>
     <button type="submit">Submit</button>
 </form>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
-<script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
     // Your Firebase config
     const firebaseConfig = {
         apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
