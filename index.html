@@ -6,43 +6,60 @@
     <title>Firebase Form Example</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 </head>
 <body>
     <form id="contactForm">
         <input type="text" name="name" placeholder="Your Name" required>
         <input type="email" name="email" placeholder="Your Email" required>
         <textarea name="message" placeholder="Your Message"></textarea>
+        <input type="file" name="file" accept="image/*, .pdf, .docx" required>
         <button type="submit">Submit</button>
     </form>
     <script>
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
-              authDomain: "adpsr-75e1f.firebaseapp.com",
-              databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
-              projectId: "adpsr-75e1f",
-              storageBucket: "adpsr-75e1f.firebasestorage.app",
-              messagingSenderId: "959425930437",
-              appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
-              measurementId: "G-1X15K2TPH4"
+            authDomain: "adpsr-75e1f.firebaseapp.com",
+            databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
+            projectId: "adpsr-75e1f",
+            storageBucket: "adpsr-75e1f.appspot.com",
+            messagingSenderId: "959425930437",
+            appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
+            measurementId: "G-1X15K2TPH4"
         };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+        const storage = firebase.storage();
 
         // Form submission logic
         const form = document.getElementById('contactForm');
         form.addEventListener('submit', (e) => {
             e.preventDefault();
+
             const formData = new FormData(form);
             const data = {};
             formData.forEach((value, key) => {
                 data[key] = value;
             });
-            database.ref('submissions').push(data)
-                .then(() => alert('Form submitted successfully!'))
-                .catch(err => console.error('Error:', err));
+
+            // Handle file upload
+            const file = formData.get('file');
+            const fileRef = storage.ref('uploads/' + file.name);
+            
+            fileRef.put(file).then(() => {
+                fileRef.getDownloadURL().then((url) => {
+                    // Add file URL to the form data before pushing to database
+                    data.fileUrl = url;
+
+                    // Save form data along with file URL to Firebase Realtime Database
+                    database.ref('submissions').push(data)
+                        .then(() => alert('Form submitted successfully!'))
+                        .catch(err => console.error('Error:', err));
+                });
+            }).catch(err => console.error('File upload error:', err));
         });
     </script>
 </body>
