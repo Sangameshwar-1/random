@@ -84,10 +84,11 @@
         </div>
     </div>
 
+    <!-- Socket.io script -->
     <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
     <script>
-        // Replace with your server's IP address or public URL
-        const socket = io('http://10.10.0.22:3000');
+        // Replace with your server's URL or ngrok URL
+        const socket = io('http://10.10.0.22:3000'); // Local server or ngrok/Heroku URL
 
         const messagesDiv = document.getElementById('messages');
         const messageInput = document.getElementById('message-input');
@@ -107,14 +108,6 @@
                 addMessage({ text: message, sender: socket.id }, 'user-message');
                 messageInput.value = '';
             }
-        });
-
-        // Receive chat history
-        socket.on('chat history', (history) => {
-            history.forEach((message) => {
-                const className = message.sender === socket.id ? 'user-message' : 'other-message';
-                addMessage(message, className);
-            });
         });
 
         // Receive new messages
