@@ -85,7 +85,9 @@
 
     <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
     <script>
-        const socket = io('http://localhost:3000'); // Change to your server URL
+        const socket = io('http://localhost:3000'); // Ensure this matches the server
+            
+        // Change to your server URL
 
         const messagesDiv = document.getElementById('messages');
         const messageInput = document.getElementById('message-input');
