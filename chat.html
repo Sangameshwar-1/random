@@ -124,6 +124,7 @@
 <body>
     <div class="head">
         <h1><b>Anonymous Chat</b></h1>
+        <button id="logoutButton" style="border-radius:7px;color:white;" >Logout</button> 
     </div>
     <div class="chat-container">
         <div id="userDetails">
@@ -231,6 +232,14 @@
             const date = new Date(timestamp);
             return date.toLocaleString();
         }
+        // Logout function
+        document.getElementById("logoutButton").addEventListener("click", () => {
+            auth.signOut().then(() => {
+                window.location.href = "index.html";
+            }).catch((error) => {
+                console.error("Error signing out:", error);
+            });
+        });
     </script>
 
 </body>
