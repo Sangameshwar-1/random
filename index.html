@@ -86,12 +86,17 @@
     <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
     <script>
         const socket = io('http://localhost:3000'); // Ensure this matches the server
-            
-        // Change to your server URL
 
         const messagesDiv = document.getElementById('messages');
         const messageInput = document.getElementById('message-input');
         const sendBtn = document.getElementById('send-btn');
+
+        // Load chat history from the server
+        socket.on('chat history', (history) => {
+            history.forEach(message => {
+                addMessage(message.text, message.type);
+            });
+        });
 
         // Send message to server
         sendBtn.addEventListener('click', () => {
