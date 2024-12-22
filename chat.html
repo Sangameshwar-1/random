@@ -143,6 +143,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script>
+        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
             authDomain: "adpsr-75e1f.firebaseapp.com",
@@ -153,29 +154,28 @@
             appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
             measurementId: "G-1X15K2TPH4"
         };
-        // Initialize Firebase as before
         const app = firebase.initializeApp(firebaseConfig);
         const database = firebase.database(app);
         const auth = firebase.auth();
-    
-        let userGroup = ""; // To store the logged-in user's group
-    
-        // Fetch user details and group on authentication state change
+
+        let userGroup = ""; // Store user's group
+        const messagesContainer = document.getElementById("messages");
+        const messageInput = document.getElementById("messageInput");
+
         auth.onAuthStateChanged((user) => {
             if (user) {
                 const userId = user.uid;
                 const userRef = database.ref(`users/${userId}`);
-    
-                userRef.once('value').then((snapshot) => {
+
+                userRef.once("value").then((snapshot) => {
                     const userData = snapshot.val();
                     if (userData) {
-                        const userName = user.displayName;
-                        userGroup = userData.group; // Fetch user's group
-    
-                        document.getElementById('userName').innerText = `Username: ${userName}`;
-                        document.getElementById('userGroup').innerText = `Group: ${userGroup}`;
-    
-                        // Load messages for the user's group
+                        const userName = user.displayName || "Anonymous";
+                        userGroup = userData.group;
+
+                        document.getElementById("userName").innerText = `Username: ${userName}`;
+                        document.getElementById("userGroup").innerText = `Group: ${userGroup}`;
+
                         loadGroupMessages(userGroup);
                     } else {
                         console.error("User data not found.");
@@ -184,12 +184,10 @@
                     console.error("Error fetching user data:", error);
                 });
             } else {
-                console.log("User is not logged in.");
-                window.location.href = 'index.html';
+                window.location.href = "index.html";
             }
         });
-    
-        // Function to load messages for the user's group
+
         function loadGroupMessages(group) {
             const groupMessagesRef = database.ref(`messages/${group}`);
             groupMessagesRef.on("child_added", (snapshot) => {
@@ -198,18 +196,16 @@
                 messageElement.classList.add("message");
                 messageElement.innerHTML = `<strong>${messageData.username}:</strong> ${messageData.message} <small>${formatDate(messageData.timestamp)}</small>`;
                 messagesContainer.appendChild(messageElement);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to the latest message
+                messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to latest message
             });
         }
-    
-        // Function to send a message to the user's group
+
         function sendMessage() {
             const message = messageInput.value.trim();
             if (message && userGroup) {
                 const timestamp = new Date().toISOString();
-                const username = auth.currentUser ? auth.currentUser.displayName : "Anonymous";
-    
-                // Push message to the user's group in Firebase
+                const username = auth.currentUser ? auth.currentUser.displayName || "Anonymous" : "Anonymous";
+
                 const groupMessagesRef = database.ref(`messages/${userGroup}`);
                 groupMessagesRef.push({
                     username: username,
@@ -219,11 +215,15 @@
                 messageInput.value = "";
             }
         }
-    
-        // Attach event listener to the send button
+
         document.getElementById("sendButton").addEventListener("click", sendMessage);
-    
-        // Function to format date and time
+        messageInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
         function formatDate(timestamp) {
             const date = new Date(timestamp);
             return date.toLocaleString();
