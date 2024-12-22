@@ -96,9 +96,8 @@
         <div class="form-group">
             <label for="group">Group:</label>
             <select id="group" required>
-                <!-- Options will be dynamically populated -->
-                <option>RGUKT BASAR</option>
-                <option>IIIT HYD</option>
+                <option value="RGUKT BASAR">RGUKT BASAR</option>
+                <option value="IIIT HYD">IIIT HYD</option>
             </select>
         </div>
         <button id="signupButton">Sign Up</button>
@@ -134,22 +133,6 @@
         const signupContainer = document.getElementById("signupContainer");
         const errorMessage = document.getElementById("errorMessage");
         const signupErrorMessage = document.getElementById("signupErrorMessage");
-        const groupSelector = document.getElementById("group");
-
-        // Function to fetch groups from the database
-        function fetchGroups() {
-            const groupsRef = database.ref("groups");
-            groupsRef.once("value", (snapshot) => {
-                const groups = snapshot.val();
-                groupSelector.innerHTML = "";
-                for (const groupName in groups) {
-                    const option = document.createElement("option");
-                    option.value = groupName;
-                    option.textContent = groupName;
-                    groupSelector.appendChild(option);
-                }
-            });
-        }
 
         // Function to handle login
         function login(event) {
@@ -205,16 +188,13 @@
                 });
         }
 
-        // Fetch groups when showing signup form
-        document.getElementById("showSignup").addEventListener("click", () => {
-            authContainer.style.display = "none";
-            signupContainer.style.display = "flex";
-            fetchGroups();
-        });
-
         // Event listeners
         document.getElementById("loginButton").addEventListener("click", login);
         document.getElementById("signupButton").addEventListener("click", signup);
+        document.getElementById("showSignup").addEventListener("click", () => {
+            authContainer.style.display = "none";
+            signupContainer.style.display = "flex";
+        });
         document.getElementById("showLogin").addEventListener("click", () => {
             signupContainer.style.display = "none";
             authContainer.style.display = "flex";
