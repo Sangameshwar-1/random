@@ -1,222 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Chat</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* Center vertically */
-            align-items: center; /* Center horizontally */
-            height: 100vh;
-            width: 100vw; /* Fix width to 100% of the viewport width */
-            margin: 0;
-            background-image: url('https://i.pinimg.com/originals/9e/33/18/9e3318949a706696a99e86ac3e8f5dc2.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-    
-        @media only screen and (max-width: 600px) {
-            .chat-container {
-                width: 90%;
-            }
-        }
-    
-        .head, .footer, .chat-container {
-            position: relative;
-            z-index: 1; /* Ensures these elements are above the background */
-        }
-    
-        .head {
-            width: 100%;
-            text-align: center;
-            padding: 20px;
-            background-color: rgba(51, 8, 225, 0.2); /* Slightly transparent background */
-            color: rgb(251, 250, 250);
-            border-radius: 8px;
-            margin-left:5px;
-            margin-right:5px;
-            margin-bottom: 20px;
-        }
-    
-        .footer {
-            width: 100%;
-            text-align: center;
-            padding: 10px;
-            background-color: rgba(55, 10, 234, 0.2); /* Slightly transparent background */
-            color: white;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-    
-        .chat-container {
-           width: 85%;
-            margin-left: 4px;
-            margin-right: 4px;
-            flex-grow: 1;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: rgb(251, 247, 251,0.1); /* Increase transparency */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            max-width: 800px;
-            margin: auto; /* Center the container */
-        }
-    
-        .messages {
-                flex-grow: 1;
-                overflow-y: auto; /* Enables vertical scrolling */
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-                padding: 10px;
-                background-color: rgba(249, 249, 249, 0.3); /* Increase transparency */
-                border-radius: 4px;
-                display: flex;
-                flex-direction: column;
-                height: 300px; /* Fixed height for the container */
-                scrollbar-width: none; /* Hides scrollbar in Firefox */
-            }
-            
-            .messages::-webkit-scrollbar {
-                display: none; /* Hides scrollbar in Webkit-based browsers */
-            }
+<script>
+    // Initialize Firebase as before
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database(app);
+    const auth = firebase.auth();
 
-    
-        input {
-            padding: 5px;
-            height: auto;
-            flex-grow: 1;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            resize: vertical;
-            overflow: hidden; /* Remove the scrolling bar */
-        }
-    
-        button {
-            margin-top: 4px;
-            padding: 10px 20px;
-            border-radius: 4px;
-            border: none;
-            background-color: #0041f4;
-            color: white;
-            cursor: pointer;
-        }
-    
-        .user-info {
-            color: white;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-    
-        .message small {
-            float: right;
-        }
-    </style>
-</head>
-<body>
-    <div class="head">
-        <h1><b>Anonymous Chat</b></h1>
-    </div>
-    <div class="chat-container">
-        <div id="userDetails">
-            <p id="userName"><b>Username: </b></p>
-            <p id="userGroup"><b>Group: </b></p>
-        </div>
+    let userGroup = ""; // To store the logged-in user's group
 
-        <div id="messages" class="messages"></div>
-        <textarea id="messageInput" placeholder="Type a message"></textarea>
-        <button id="sendButton">Send</button>
-    </div>
-    <div class="footer">
-        <ul>
-            <li>Contact: Test@mail.com</li>
-            <li>Developed by: Testname </li>
-        </ul>
-    </div>
+    // Fetch user details and group on authentication state change
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            const userId = user.uid;
+            const userRef = database.ref(`users/${userId}`);
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script>
-        // Firebase Configuration (replace with your own config)
-        const firebaseConfig = {
-            apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
-            authDomain: "adpsr-75e1f.firebaseapp.com",
-            databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
-            projectId: "adpsr-75e1f",
-            storageBucket: "adpsr-75e1f.appspot.com",
-            messagingSenderId: "959425930437",
-            appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
-            measurementId: "G-1X15K2TPH4"
-        };
-    
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const database = firebase.database();
-    
-        // Authentication Check on Page Load
-        window.onload = function () {
-            auth.onAuthStateChanged((user) => {
-                if (!user) {
-                    // Redirect unauthorized users to the login page
-                    window.location.href = 'index.html';
-                    return;
+            userRef.once('value').then((snapshot) => {
+                const userData = snapshot.val();
+                if (userData) {
+                    const userName = user.displayName;
+                    userGroup = userData.group; // Fetch user's group
+
+                    document.getElementById('userName').innerText = `Username: ${userName}`;
+                    document.getElementById('userGroup').innerText = `Group: ${userGroup}`;
+
+                    // Load messages for the user's group
+                    loadGroupMessages(userGroup);
+                } else {
+                    console.error("User data not found.");
                 }
-    
-                // Fetch and display user details if authenticated
-                const userId = user.uid;
-                const userRef = database.ref(`users/${userId}`);
-                userRef.once('value')
-                    .then((snapshot) => {
-                        const userData = snapshot.val();
-                        if (userData) {
-                            const userName = user.displayName || "Anonymous";
-                            const userGroup = userData.group || "General";
-    
-                            // Update the UI with user details
-                            document.getElementById('userName').innerText = `Username: ${userName}`;
-                            document.getElementById('userGroup').innerText = `Group: ${userGroup}`;
-                        } else {
-                            console.error("User data not found in the database.");
-                        }
-                    })
-                    .catch((error) => {
-                        console.error("Error fetching user data:", error);
-                    });
+            }).catch((error) => {
+                console.error("Error fetching user data:", error);
             });
-        };
-    
-        // Function to send a message
-        function sendMessage() {
-            const messageInput = document.getElementById("messageInput");
-            const message = messageInput.value.trim();
-            if (message) {
-                const timestamp = new Date().toISOString();
-                const username = auth.currentUser ? auth.currentUser.displayName : "Anonymous"; // Get the username of the logged-in user
-                database.ref("messages").push({
-                    username: username,
-                    message: message,
-                    timestamp: timestamp
-                });
-                messageInput.value = "";
-            }
+        } else {
+            console.log("User is not logged in.");
+            window.location.href = 'login.html';
         }
-    
-        // Function to format date and time
-        function formatDate(timestamp) {
-            const date = new Date(timestamp);
-            return date.toLocaleString();
-        }
-    
-        // Listen for new messages
-        database.ref("messages").on("child_added", (snapshot) => {
-            const messagesContainer = document.getElementById("messages");
+    });
+
+    // Function to load messages for the user's group
+    function loadGroupMessages(group) {
+        const groupMessagesRef = database.ref(`messages/${group}`);
+        groupMessagesRef.on("child_added", (snapshot) => {
             const messageData = snapshot.val();
             const messageElement = document.createElement("div");
             messageElement.classList.add("message");
@@ -224,10 +46,32 @@
             messagesContainer.appendChild(messageElement);
             messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to the latest message
         });
-    
-        // Attach event listener to the send button
-        document.getElementById("sendButton").addEventListener("click", sendMessage);
-    </script>
+    }
 
-</body>
-</html>
+    // Function to send a message to the user's group
+    function sendMessage() {
+        const message = messageInput.value.trim();
+        if (message && userGroup) {
+            const timestamp = new Date().toISOString();
+            const username = auth.currentUser ? auth.currentUser.displayName : "Anonymous";
+
+            // Push message to the user's group in Firebase
+            const groupMessagesRef = database.ref(`messages/${userGroup}`);
+            groupMessagesRef.push({
+                username: username,
+                message: message,
+                timestamp: timestamp
+            });
+            messageInput.value = "";
+        }
+    }
+
+    // Attach event listener to the send button
+    document.getElementById("sendButton").addEventListener("click", sendMessage);
+
+    // Function to format date and time
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleString();
+    }
+</script>
