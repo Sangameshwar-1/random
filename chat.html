@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group Chat</title>
-    <style>
+        <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -37,12 +37,25 @@
             background-color: rgba(51, 8, 225, 0.2); /* Slightly transparent background */
             color: rgb(251, 250, 250);
             border-radius: 8px;
-            margin-left:5px;
-            margin-right:5px;
+            margin-left: 5px;
+            margin-right: 5px;
             margin-bottom: 20px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            position: relative;
+        }
+
+        .head h1 {
+            flex-grow: 1;
+        }
+
+        .logoutButton {
+            position: absolute;
+            right: 20px;
+            background-color: white;
+            color: black;
+            border-radius: 7px;
         }
     
         .footer {
@@ -72,24 +85,23 @@
         }
     
         .messages {
-                flex-grow: 1;
-                overflow-y: auto; /* Enables vertical scrolling */
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-                padding: 10px;
-                background-color: rgba(249, 249, 249, 0.3); /* Increase transparency */
-                border-radius: 4px;
-                display: flex;
-                flex-direction: column;
-                height: 300px; /* Fixed height for the container */
-                scrollbar-width: none; /* Hides scrollbar in Firefox */
-            }
-            
-            .messages::-webkit-scrollbar {
-                display: none; /* Hides scrollbar in Webkit-based browsers */
-            }
+            flex-grow: 1;
+            overflow-y: auto; /* Enables vertical scrolling */
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: rgba(249, 249, 249, 0.3); /* Increase transparency */
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            height: 300px; /* Fixed height for the container */
+            scrollbar-width: none; /* Hides scrollbar in Firefox */
+        }
+        
+        .messages::-webkit-scrollbar {
+            display: none; /* Hides scrollbar in Webkit-based browsers */
+        }
 
-    
         input {
             padding: 5px;
             height: auto;
