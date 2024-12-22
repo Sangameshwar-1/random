@@ -55,7 +55,7 @@
             cursor: pointer;
         }
 
-        #errorMessage {
+        #errorMessage, #signupErrorMessage {
             color: red;
             display: none;
         }
@@ -136,7 +136,9 @@
                     alert("Login successful!");
                 })
                 .catch((error) => {
+                    console.error("Login Error:", error.message);
                     errorMessage.style.display = "block";
+                    errorMessage.textContent = error.message;
                 });
         }
 
@@ -157,7 +159,9 @@
                     });
                 })
                 .catch((error) => {
+                    console.error("Signup Error:", error.message);
                     signupErrorMessage.style.display = "block";
+                    signupErrorMessage.textContent = error.message;
                 });
         }
 
