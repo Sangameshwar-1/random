@@ -6,65 +6,122 @@
     <title>Auth Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f1f1f1;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #333;
         }
 
         .auth-container {
+            max-width: 400px;
             width: 100%;
-            height: 100%;
-            padding: 20px;
+            padding: 30px;
             box-sizing: border-box;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .auth-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .auth-container h3 {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #555;
         }
 
         input, select {
-            width: calc(100% - 60px);
-            padding: 10px;
-            margin-right: 10px;
-            border-radius: 4px;
+            width: 100%;
+            padding: 10px 15px;
             border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #6a11cb;
+            outline: none;
+            box-shadow: 0 0 5px rgba(106, 17, 203, 0.4);
         }
 
         button {
-            padding: 10px 20px;
-            border-radius: 4px;
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
             border: none;
-            background-color: #4CAF50;
-            color: white;
+            border-radius: 6px;
+            background-color: #6a11cb;
+            color: #fff;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2575fc;
+        }
+
+        #signupRedirect p, div p {
+            font-size: 14px;
+            text-align: center;
+        }
+
+        #signupRedirect button, div p button {
+            background: none;
+            border: none;
+            color: #6a11cb;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 14px;
+        }
+
+        #signupRedirect button:hover, div p button:hover {
+            color: #2575fc;
         }
 
         #errorMessage, #signupErrorMessage {
             color: red;
-            display: none;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
     <div id="authContainer" class="auth-container">
         <h3>Make sure you create the account first</h3>
-        <h3>Then you can login in any device</h3>
+        <h3>Then you can log in on any device</h3>
         <h2>Login to Chat</h2>
         <div class="form-group">
             <label for="email">Email:</label>
@@ -103,7 +160,7 @@
             </select>
         </div>
         <button id="signupButton">Sign Up</button>
-        <div id="signupErrorMessage" style="color: red; display: none;">Sign up failed. Please try again.</div>
+        <div id="signupErrorMessage">Sign up failed. Please try again.</div>
         <div>
             <p>Already have an account? <button id="showLogin">Login</button></p>
         </div>
@@ -138,12 +195,11 @@
 
         // Function to handle login
         function login(event) {
-            event.preventDefault();  // Prevent form submission
-            
+            event.preventDefault();
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
-            
-            if (email === "" || password === "") {
+
+            if (!email || !password) {
                 errorMessage.style.display = "block";
                 errorMessage.textContent = "Email and password cannot be empty!";
                 return;
@@ -153,12 +209,9 @@
                 .then(() => {
                     authContainer.style.display = "none";
                     alert("Login successful!");
-
-                    // Redirect to chat.html after successful login
                     window.location.href = "chat.html";
                 })
                 .catch((error) => {
-                    console.error("Login Error:", error.message);
                     errorMessage.style.display = "block";
                     errorMessage.textContent = error.message;
                 });
@@ -174,17 +227,13 @@
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    user.updateProfile({
-                        displayName: username
-                    }).then(() => {
-                        const userRef = database.ref(`users/${user.uid}`);
-                        userRef.set({ group: group });
+                    user.updateProfile({ displayName: username }).then(() => {
+                        database.ref(`users/${user.uid}`).set({ group });
                         signupContainer.style.display = "none";
                         alert("Signup successful!");
                     });
                 })
                 .catch((error) => {
-                    console.error("Signup Error:", error.message);
                     signupErrorMessage.style.display = "block";
                     signupErrorMessage.textContent = error.message;
                 });
