@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group Chat</title>
-        <style>
+    <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -37,27 +37,17 @@
             background-color: rgba(51, 8, 225, 0.2); /* Slightly transparent background */
             color: rgb(251, 250, 250);
             border-radius: 8px;
-            margin-left: 5px;
-            margin-right: 5px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        .head h1 {
-            flex-grow: 1;
-        }
-
-        .logoutButton {
+            margin-left:5px;
             margin-right:5px;
-            position: absolute;
-            right: 20px;
-            background-color: white;
-            color: black;
-            border-radius: 7px;
+            margin-bottom: 20px;
         }
+        .logoutButton{
+            margin-right:5px;
+            background-color:white;
+            color:black;
+            border-radius:7px;
+        }
+            
     
         .footer {
             width: 100%;
@@ -86,23 +76,24 @@
         }
     
         .messages {
-            flex-grow: 1;
-            overflow-y: auto; /* Enables vertical scrolling */
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            padding: 10px;
-            background-color: rgba(249, 249, 249, 0.3); /* Increase transparency */
-            border-radius: 4px;
-            display: flex;
-            flex-direction: column;
-            height: 300px; /* Fixed height for the container */
-            scrollbar-width: none; /* Hides scrollbar in Firefox */
-        }
-        
-        .messages::-webkit-scrollbar {
-            display: none; /* Hides scrollbar in Webkit-based browsers */
-        }
+                flex-grow: 1;
+                overflow-y: auto; /* Enables vertical scrolling */
+                margin-bottom: 10px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                background-color: rgba(249, 249, 249, 0.3); /* Increase transparency */
+                border-radius: 4px;
+                display: flex;
+                flex-direction: column;
+                height: 300px; /* Fixed height for the container */
+                scrollbar-width: none; /* Hides scrollbar in Firefox */
+            }
+            
+            .messages::-webkit-scrollbar {
+                display: none; /* Hides scrollbar in Webkit-based browsers */
+            }
 
+    
         input {
             padding: 5px;
             height: auto;
@@ -113,28 +104,23 @@
             overflow: hidden; /* Remove the scrolling bar */
         }
     
-        .button {
+        button {
             margin-top: 4px;
             padding: 10px 20px;
             border-radius: 4px;
             border: none;
-            cursor: pointer;
-        }
-
-        .sendButton {
             background-color: #0041f4;
             color: white;
-        }
-
-        .logoutButton {
-            background-color: white;
-            color: black;
+            cursor: pointer;
         }
     
         .user-info {
             color: white;
             margin-bottom: 10px;
             font-weight: bold;
+        }
+        .userDetails{
+            color: white;
         }
     
         .message small {
@@ -145,7 +131,7 @@
 <body>
     <div class="head">
         <h1><b>Anonymous Chat</b></h1>
-        <button id="logoutButton" " >Logout</button> 
+        <button id="logoutButton" style="border-radius:7px;color:white;" >Logout</button> 
     </div>
     <div class="chat-container">
         <div id="userDetails">
@@ -265,4 +251,3 @@
 
 </body>
 </html>
-
