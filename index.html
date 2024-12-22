@@ -38,7 +38,7 @@
             margin-bottom: 5px;
         }
 
-        input {
+        input, select {
             width: calc(100% - 60px);
             padding: 10px;
             margin-right: 10px;
@@ -93,6 +93,12 @@
             <label for="signupPassword">Password:</label>
             <input type="password" id="signupPassword" placeholder="Enter your password" required>
         </div>
+        <div class="form-group">
+            <label for="group">Group:</label>
+            <select id="group" required>
+                <!-- Options will be dynamically populated -->
+            </select>
+        </div>
         <button id="signupButton">Sign Up</button>
         <div id="signupErrorMessage" style="color: red; display: none;">Sign up failed. Please try again.</div>
         <div>
@@ -102,6 +108,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
         // Firebase Configuration (replace with your own config)
         const firebaseConfig = {
@@ -118,12 +125,29 @@
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
+        const database = firebase.database(app);
 
         // References
         const authContainer = document.getElementById("authContainer");
         const signupContainer = document.getElementById("signupContainer");
         const errorMessage = document.getElementById("errorMessage");
         const signupErrorMessage = document.getElementById("signupErrorMessage");
+        const groupSelector = document.getElementById("group");
+
+        // Function to fetch groups from the database
+        function fetchGroups() {
+            const groupsRef = database.ref("groups");
+            groupsRef.once("value", (snapshot) => {
+                const groups = snapshot.val();
+                groupSelector.innerHTML = "";
+                for (const groupName in groups) {
+                    const option = document.createElement("option");
+                    option.value = groupName;
+                    option.textContent = groupName;
+                    groupSelector.appendChild(option);
+                }
+            });
+        }
 
         // Function to handle login
         function login(event) {
@@ -158,6 +182,7 @@
             const username = document.getElementById("username").value.trim();
             const email = document.getElementById("signupEmail").value.trim();
             const password = document.getElementById("signupPassword").value.trim();
+            const group = document.getElementById("group").value;
 
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
@@ -165,6 +190,8 @@
                     user.updateProfile({
                         displayName: username
                     }).then(() => {
+                        const userRef = database.ref(`users/${user.uid}`);
+                        userRef.set({ group: group });
                         signupContainer.style.display = "none";
                         alert("Signup successful!");
                     });
@@ -176,13 +203,16 @@
                 });
         }
 
-        // Event listeners
-        document.getElementById("loginButton").addEventListener("click", login);
-        document.getElementById("signupButton").addEventListener("click", signup);
+        // Fetch groups when showing signup form
         document.getElementById("showSignup").addEventListener("click", () => {
             authContainer.style.display = "none";
             signupContainer.style.display = "flex";
+            fetchGroups();
         });
+
+        // Event listeners
+        document.getElementById("loginButton").addEventListener("click", login);
+        document.getElementById("signupButton").addEventListener("click", signup);
         document.getElementById("showLogin").addEventListener("click", () => {
             signupContainer.style.display = "none";
             authContainer.style.display = "flex";
