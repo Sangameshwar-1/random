@@ -3,135 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anonymous Chat</title>
+    <title>Group Chat</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f9;
+            margin: 0;
+            background-color: #f1f1f1;
         }
 
-        #chat-container {
-            width: 80%;
-            max-width: 500px;
-            border: 1px solid #ddd;
+        .chat-container {
+            width: 400px;
+            padding: 20px;
+            background-color: white;
             border-radius: 8px;
-            overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        #messages {
-            height: 400px;
+        .messages {
+            height: 300px;
             overflow-y: auto;
-            padding: 10px;
-            background-color: #fff;
-        }
-
-        #messages div {
             margin-bottom: 10px;
-            padding: 8px;
-            border-radius: 5px;
-            word-wrap: break-word;
-        }
-
-        .user-message {
-            background-color: #d1e7dd;
-            align-self: flex-end;
-        }
-
-        .other-message {
-            background-color: #f8d7da;
-            align-self: flex-start;
-        }
-
-        #input-container {
-            display: flex;
-            border-top: 1px solid #ddd;
-        }
-
-        #message-input {
-            flex-grow: 1;
+            border: 1px solid #ddd;
             padding: 10px;
-            border: none;
-            outline: none;
+            background-color: #f9f9f9;
+            border-radius: 4px;
         }
 
-        #send-btn {
+        input {
+            width: calc(100% - 60px);
             padding: 10px;
-            background-color: #007bff;
-            color: #fff;
+            margin-right: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            padding: 10px 20px;
+            border-radius: 4px;
             border: none;
+            background-color: #4CAF50;
+            color: white;
             cursor: pointer;
-        }
-
-        #send-btn:hover {
-            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div id="chat-container">
-        <div id="messages"></div>
-        <div id="input-container">
-            <input type="text" id="message-input" placeholder="Type a message...">
-            <button id="send-btn">Send</button>
-        </div>
+    <div class="chat-container">
+        <div id="messages" class="messages"></div>
+        <input type="text" id="messageInput" placeholder="Type a message" />
+        <button onclick="sendMessage()">Send</button>
     </div>
 
-    <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
     <script>
-        // Replace with your server's HTTPS address
-       const socket = io('http://192.168.12.249:3000');
- // Use your server's IP address here
+        // Firebase Configuration (replace with your own config)
+        const firebaseConfig = {
+           apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
+            authDomain: "adpsr-75e1f.firebaseapp.com",
+            databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
+            projectId: "adpsr-75e1f",
+            storageBucket: "adpsr-75e1f.appspot.com",
+            messagingSenderId: "959425930437",
+            appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
+            measurementId: "G-1X15K2TPH4"
+        };
 
-        const messagesDiv = document.getElementById('messages');
-        const messageInput = document.getElementById('message-input');
-        const sendBtn = document.getElementById('send-btn');
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database(app);
 
-        // Handle socket connection error
-        socket.on('connect_error', (error) => {
-            console.error('Connection error:', error.message);
-            alert('Unable to connect to the server. Please check the server status.');
-        });
+        // References
+        const messagesRef = database.ref("messages");
+        const messagesContainer = document.getElementById("messages");
+        const messageInput = document.getElementById("messageInput");
 
-        // Send message to server
-        sendBtn.addEventListener('click', () => {
+        // Function to send a message
+        function sendMessage() {
             const message = messageInput.value.trim();
             if (message) {
-                socket.emit('chat message', message); // Emit message to the server
-                addMessage({ text: message, sender: socket.id }, 'user-message');
-                messageInput.value = '';
+                const timestamp = new Date().toISOString();
+                messagesRef.push({
+                    message: message,
+                    timestamp: timestamp
+                });
+                messageInput.value = "";
             }
-        });
-
-        // Receive chat history
-        socket.on('chat history', (history) => {
-            history.forEach((message) => {
-                const className = message.sender === socket.id ? 'user-message' : 'other-message';
-                addMessage(message, className);
-            });
-        });
-
-        // Receive new messages
-        socket.on('chat message', (message) => {
-            const className = message.sender === socket.id ? 'user-message' : 'other-message';
-            addMessage(message, className);
-        });
-
-        // Add message to chat
-        function addMessage(message, className) {
-            const div = document.createElement('div');
-            div.textContent = message.text;
-            div.className = className;
-            messagesDiv.appendChild(div);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
+
+        // Listen for new messages
+        messagesRef.on("child_added", (snapshot) => {
+            const messageData = snapshot.val();
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("message");
+            messageElement.innerHTML = `<strong>Someone:</strong> ${messageData.message} <small>(${messageData.timestamp})</small>`;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to the latest message
+        });
     </script>
 </body>
 </html>
