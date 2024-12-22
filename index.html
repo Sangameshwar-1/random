@@ -6,14 +6,22 @@
     <title>Auth Page</title>
     <style>
     /* Body styles */
-            body {
-                font-family: Arial, sans-serif;
+body, html {
+                height: 100%;
+                margin: 0;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 100vh;
-                margin: 0;
-                background-color: #f1f1f1;
+            }
+
+            /* Create a full-screen background with the blurred image */
+            body {
+                background-image: url('https://t3.ftcdn.net/jpg/03/44/67/38/360_F_344673825_6fU6IORyipkYpfU1mg2vmxtHxDToUO6Q.jpg'); /* Replace with your image path */
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-color: transparent; /* Ensure no background color */
             }
         
             /* Container for both login and signup */
@@ -22,7 +30,7 @@
                 max-width: 400px;
                 padding: 20px;
                 box-sizing: border-box;
-                background-color: white;
+                background-color: rgba(242, 237, 237, 0.7);
                 border-radius: 8px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 display: flex;
