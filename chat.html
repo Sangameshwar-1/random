@@ -63,17 +63,22 @@
         }
     
         .messages {
-            flex-grow: 1;
-            overflow-y: auto; /* Enables vertical scrolling */
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            padding: 10px;
-            background-color: rgba(249, 249, 249, 0.3); /* Increase transparency */
-            border-radius: 4px;
-            display: flex;
-            flex-direction: column;
-            height: 300px; /* Fixed height for the container */
-        }
+                flex-grow: 1;
+                overflow-y: auto; /* Enables vertical scrolling */
+                margin-bottom: 10px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                background-color: rgba(249, 249, 249, 0.3); /* Increase transparency */
+                border-radius: 4px;
+                display: flex;
+                flex-direction: column;
+                height: 300px; /* Fixed height for the container */
+                scrollbar-width: none; /* Hides scrollbar in Firefox */
+            }
+            
+            .messages::-webkit-scrollbar {
+                display: none; /* Hides scrollbar in Webkit-based browsers */
+            }
 
     
         input {
