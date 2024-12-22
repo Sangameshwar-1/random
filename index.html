@@ -16,15 +16,19 @@
         }
 
         .chat-container {
-            width: 400px;
+            width: 100%;
+            height: 100%;
             padding: 20px;
+            box-sizing: border-box;
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
         }
 
         .messages {
-            height: 300px;
+            flex-grow: 1;
             overflow-y: auto;
             margin-bottom: 10px;
             border: 1px solid #ddd;
@@ -65,13 +69,13 @@
         // Firebase Configuration (replace with your own config)
         const firebaseConfig = {
             apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
-        authDomain: "adpsr-75e1f.firebaseapp.com",
-        databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
-        projectId: "adpsr-75e1f",
-        storageBucket: "adpsr-75e1f.appspot.com",
-        messagingSenderId: "959425930437",
-        appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
-        measurementId: "G-1X15K2TPH4"
+            authDomain: "adpsr-75e1f.firebaseapp.com",
+            databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
+            projectId: "adpsr-75e1f",
+            storageBucket: "adpsr-75e1f.appspot.com",
+            messagingSenderId: "959425930437",
+            appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
+            measurementId: "G-1X15K2TPH4"
         };
 
         // Initialize Firebase
