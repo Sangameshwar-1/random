@@ -154,62 +154,52 @@
             appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
             measurementId: "G-1X15K2TPH4"
         };
-
+    
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database(app);
+        firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-         // Check authentication status on page load
+        const database = firebase.database();
+    
+        // Authentication Check on Page Load
         window.onload = function () {
             auth.onAuthStateChanged((user) => {
                 if (!user) {
-                    // Redirect to login page if the user is not authenticated
-                    window.location.href = 'login.html'; // Replace with your actual login page URL
+                    // Redirect unauthorized users to the login page
+                    window.location.href = 'login.html';
+                    return;
                 }
-            });
-        };
-        // References
-        const messagesRef = database.ref("messages");
-        const messagesContainer = document.getElementById("messages");
-        const messageInput = document.getElementById("messageInput");
-
-        // Listen for authentication state changes
-        window.onload = function() {
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    const userId = user.uid; // Get the UID of the logged-in user
-                    const userRef = database.ref(`users/${userId}`); // Reference to the user's data in the database
-            
-                    // Fetch the group from the database
-                    userRef.once('value').then((snapshot) => {
+    
+                // Fetch and display user details if authenticated
+                const userId = user.uid;
+                const userRef = database.ref(`users/${userId}`);
+                userRef.once('value')
+                    .then((snapshot) => {
                         const userData = snapshot.val();
                         if (userData) {
-                            const userName = user.displayName; // Get the username from user profile
-                            const userGroup = userData.group; // Get the group from Firebase Realtime Database
-            
-                            // Display the username and group
+                            const userName = user.displayName || "Anonymous";
+                            const userGroup = userData.group || "General";
+    
+                            // Update the UI with user details
                             document.getElementById('userName').innerText = `Username: ${userName}`;
                             document.getElementById('userGroup').innerText = `Group: ${userGroup}`;
                         } else {
-                            console.log("User data not found.");
+                            console.error("User data not found in the database.");
                         }
-                    }).catch((error) => {
+                    })
+                    .catch((error) => {
                         console.error("Error fetching user data:", error);
                     });
-                } else {
-                    console.log("User is not logged in.");
-                    // Redirect to login page or show an error message
-                }
             });
         };
-
+    
         // Function to send a message
         function sendMessage() {
+            const messageInput = document.getElementById("messageInput");
             const message = messageInput.value.trim();
             if (message) {
                 const timestamp = new Date().toISOString();
                 const username = auth.currentUser ? auth.currentUser.displayName : "Anonymous"; // Get the username of the logged-in user
-                messagesRef.push({
+                database.ref("messages").push({
                     username: username,
                     message: message,
                     timestamp: timestamp
@@ -217,15 +207,16 @@
                 messageInput.value = "";
             }
         }
-
+    
         // Function to format date and time
         function formatDate(timestamp) {
             const date = new Date(timestamp);
             return date.toLocaleString();
         }
-
+    
         // Listen for new messages
-        messagesRef.on("child_added", (snapshot) => {
+        database.ref("messages").on("child_added", (snapshot) => {
+            const messagesContainer = document.getElementById("messages");
             const messageData = snapshot.val();
             const messageElement = document.createElement("div");
             messageElement.classList.add("message");
@@ -233,9 +224,10 @@
             messagesContainer.appendChild(messageElement);
             messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to the latest message
         });
-
+    
         // Attach event listener to the send button
         document.getElementById("sendButton").addEventListener("click", sendMessage);
     </script>
+
 </body>
 </html>
