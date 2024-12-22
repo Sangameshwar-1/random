@@ -40,14 +40,10 @@
             margin-left:5px;
             margin-right:5px;
             margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .logoutButton{
-            margin-right:5px;
-            background-color:white;
-            color:black;
-            border-radius:7px;
-        }
-            
     
         .footer {
             width: 100%;
@@ -104,23 +100,28 @@
             overflow: hidden; /* Remove the scrolling bar */
         }
     
-        .sendButton{
+        .button {
             margin-top: 4px;
             padding: 10px 20px;
             border-radius: 4px;
             border: none;
+            cursor: pointer;
+        }
+
+        .sendButton {
             background-color: #0041f4;
             color: white;
-            cursor: pointer;
+        }
+
+        .logoutButton {
+            background-color: white;
+            color: black;
         }
     
         .user-info {
             color: white;
             margin-bottom: 10px;
             font-weight: bold;
-        }
-        .userDetails{
-            color: white;
         }
     
         .message small {
