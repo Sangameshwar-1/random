@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group Chat</title>
     <style>
-        /* Replace with a direct URL to the image */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -18,12 +17,18 @@
             background-size: cover;
             background-position: center;
         }
-
+    
+        @media only screen and (max-width: 600px) {
+            .chat-container {
+                width: 90%;
+            }
+        }
+    
         .head, .footer, .chat-container {
             position: relative;
             z-index: 1; /* Ensures these elements are above the background */
         }
-
+    
         .head {
             width: 100%;
             text-align: center;
@@ -33,7 +38,7 @@
             border-radius: 8px;
             margin-bottom: 20px;
         }
-
+    
         .footer {
             width: 100%;
             text-align: center;
@@ -43,7 +48,7 @@
             border-radius: 8px;
             margin-top: 20px;
         }
-
+    
         .chat-container {
             width: 50%;
             flex-grow: 1;
@@ -56,7 +61,7 @@
             flex-direction: column;
             max-width: 800px;
         }
-
+    
         .messages {
             flex-grow: 1;
             overflow-y: auto;
@@ -65,8 +70,10 @@
             padding: 10px;
             background-color: rgb(249, 249, 249,0.3); /* Increase transparency */
             border-radius: 4px;
+            display: flex;
+            flex-direction: column;
         }
-
+    
         input {
             padding: 5px;
             height: auto;
@@ -76,7 +83,7 @@
             resize: vertical;
             overflow: hidden; /* Remove the scrolling bar */
         }
-
+    
         button {
             margin-top: 4px;
             padding: 10px 20px;
@@ -86,12 +93,12 @@
             color: white;
             cursor: pointer;
         }
-
+    
         .user-info {
             margin-bottom: 10px;
             font-weight: bold;
         }
-
+    
         .message small {
             float: right;
         }
