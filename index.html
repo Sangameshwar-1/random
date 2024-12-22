@@ -5,119 +5,132 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auth Page</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #e9ecef;
-        }
+    /* Body styles */
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background-color: #f1f1f1;
+            }
+        
+            /* Container for both login and signup */
+            .auth-container {
+                width: 100%;
+                max-width: 400px;
+                padding: 20px;
+                box-sizing: border-box;
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+        
+            /* Form group for inputs */
+            .form-group {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+        
+            /* Labels for inputs */
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-size: 14px;
+                color: #333;
+            }
+        
+            /* Input and select styles */
+            input, select {
+                width: 100%;
+                padding: 12px;
+                margin-top: 6px;
+                margin-right: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                font-size: 16px;
+                background-color: #fff;
+                box-sizing: border-box;  /* Ensures padding doesn't affect the width */
+            }
+        
+            /* Focused input and select styles */
+            input:focus, select:focus {
+                border-color: #4CAF50;
+                outline: none;
+                box-shadow: 0 0 5px rgba(76, 175, 80, 0.6); /* Adds a green glow on focus */
+            }
+        
+            /* Submit button style */
+            button {
+                padding: 12px 20px;
+                border-radius: 5px;
+                border: none;
+                background-color: #4CAF50;
+                color: white;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+        
+            /* Hover effect for button */
+            button:hover {
+                background-color: #45a049;
+            }
+        
+            /* Signup and Login toggle buttons */
+            #signupRedirect p, #signupContainer div {
+                margin-top: 10px;
+            }
+        
+            #signupRedirect button, #showLogin {
+                background: none;
+                border: none;
+                color: #4CAF50;
+                cursor: pointer;
+                font-size: 14px;
+            }
+        
+            #signupRedirect button:hover, #showLogin:hover {
+                text-decoration: underline;
+            }
+        
+            /* Error message styles */
+            #errorMessage, #signupErrorMessage {
+                color: red;
+                display: none;
+                font-size: 14px;
+                margin-top: 10px;
+            }
+        
+            /* Error message for login */
+            #errorMessage {
+                color: red;
+            }
+        
+            /* Error message for signup */
+            #signupErrorMessage {
+                color: red;
+            }
+        
+            /* Media query for mobile responsiveness */
+            @media (max-width: 600px) {
+                .auth-container {
+                    padding: 15px;
+                    width: 90%;
+                }
+        
+                input, select, button {
+                    font-size: 14px;
+                }
+            }
+        </style>
+
     
-        .auth-container {
-            width: 100%;
-            max-width: 400px;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-    
-        .form-group {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-    
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #333;
-        }
-    
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin-top: 6px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-    
-        input:focus, select:focus {
-            border-color: #4CAF50;
-            outline: none;
-        }
-    
-        button {
-            padding: 12px 25px;
-            border-radius: 5px;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-    
-        button:hover {
-            background-color: #45a049;
-        }
-    
-        #errorMessage, #signupErrorMessage {
-            color: red;
-            font-size: 14px;
-            display: none;
-            margin-top: 10px;
-        }
-    
-        #signupRedirect {
-            margin-top: 20px;
-            font-size: 14px;
-        }
-    
-        #signupRedirect button {
-            background-color: transparent;
-            color: #007bff;
-            border: none;
-            cursor: pointer;
-        }
-    
-        #signupRedirect button:hover {
-            text-decoration: underline;
-        }
-    
-        h2, h3 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-    
-        #signupContainer {
-            display: none;
-        }
-    
-        #signupContainer h2, #authContainer h2 {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-    
-        .form-group select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-        }
-    
-        .form-group input[type="email"], .form-group input[type="password"] {
-            padding: 12px;
-            font-size: 16px;
-        }
-    </style>
 
 </head>
 <body>
