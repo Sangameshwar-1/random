@@ -55,23 +55,23 @@
     <div class="chat-container">
         <div id="messages" class="messages"></div>
         <input type="text" id="messageInput" placeholder="Type a message" />
-        <button onclick="sendMessage()">Send</button>
+        <button id="sendButton">Send</button>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script>
         // Firebase Configuration (replace with your own config)
         const firebaseConfig = {
-           apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
-            authDomain: "adpsr-75e1f.firebaseapp.com",
-            databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
-            projectId: "adpsr-75e1f",
-            storageBucket: "adpsr-75e1f.appspot.com",
-            messagingSenderId: "959425930437",
-            appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
-            measurementId: "G-1X15K2TPH4"
+            apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
+        authDomain: "adpsr-75e1f.firebaseapp.com",
+        databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
+        projectId: "adpsr-75e1f",
+        storageBucket: "adpsr-75e1f.appspot.com",
+        messagingSenderId: "959425930437",
+        appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
+        measurementId: "G-1X15K2TPH4"
         };
 
         // Initialize Firebase
@@ -105,6 +105,9 @@
             messagesContainer.appendChild(messageElement);
             messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to the latest message
         });
+
+        // Attach event listener to the send button
+        document.getElementById("sendButton").addEventListener("click", sendMessage);
     </script>
 </body>
 </html>
