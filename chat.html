@@ -17,6 +17,7 @@
             background-image: url('https://i.pinimg.com/originals/9e/33/18/9e3318949a706696a99e86ac3e8f5dc2.jpg');
             background-size: cover;
             background-position: center;
+            overflow: hidden; /* Prevent overflowing */
         }
     
         @media only screen and (max-width: 600px) {
@@ -25,32 +26,39 @@
             }
         }
     
-/*         .head, .footer, .chat-container {
+        .head, .footer, .chat-container {
+            width: 100%;
+            max-width: 800px; /* Ensure it doesn't exceed the max width */
+            margin: auto; /* Center the container */
             position: relative;
             z-index: 1; /* Ensures these elements are above the background */
         }
-     */
+    
         .head {
-            width: 100%;
             text-align: center;
             padding: 20px;
             background-color: rgba(51, 8, 225, 0.2); /* Slightly transparent background */
             color: rgb(251, 250, 250);
             border-radius: 8px;
-            margin-left:5px;
-            margin-right:5px;
-            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .logoutButton{
-            margin-right:5px;
-            background-color:white;
-            color:black;
-            border-radius:7px;
+
+        .head h1 {
+            flex-grow: 1;
         }
-            
+
+        .logoutButton {
+            background-color: white;
+            color: black;
+            border-radius: 7px;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
     
         .footer {
-            width: 100%;
             text-align: center;
             padding: 10px;
             background-color: rgba(55, 10, 234, 0.2); /* Slightly transparent background */
@@ -60,9 +68,6 @@
         }
     
         .chat-container {
-           width: 85%;
-            margin-left: 4px;
-            margin-right: 4px;
             flex-grow: 1;
             padding: 20px;
             box-sizing: border-box;
@@ -71,29 +76,26 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            max-width: 800px;
-            margin: auto; /* Center the container */
         }
     
         .messages {
-                flex-grow: 1;
-                overflow-y: auto; /* Enables vertical scrolling */
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-                padding: 10px;
-                background-color: rgba(249, 249, 249, 0.3); /* Increase transparency */
-                border-radius: 4px;
-                display: flex;
-                flex-direction: column;
-                height: 300px; /* Fixed height for the container */
-                scrollbar-width: none; /* Hides scrollbar in Firefox */
-            }
-            
-            .messages::-webkit-scrollbar {
-                display: none; /* Hides scrollbar in Webkit-based browsers */
-            }
+            flex-grow: 1;
+            overflow-y: auto; /* Enables vertical scrolling */
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: rgba(249, 249, 249, 0.3); /* Increase transparency */
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            height: 300px; /* Fixed height for the container */
+            scrollbar-width: none; /* Hides scrollbar in Firefox */
+        }
+        
+        .messages::-webkit-scrollbar {
+            display: none; /* Hides scrollbar in Webkit-based browsers */
+        }
 
-    
         input {
             padding: 5px;
             height: auto;
@@ -104,23 +106,28 @@
             overflow: hidden; /* Remove the scrolling bar */
         }
     
-        button {
+        .button {
             margin-top: 4px;
             padding: 10px 20px;
             border-radius: 4px;
             border: none;
+            cursor: pointer;
+        }
+
+        .sendButton {
             background-color: #0041f4;
             color: white;
-            cursor: pointer;
+        }
+
+        .logoutButton {
+            background-color: white;
+            color: black;
         }
     
         .user-info {
             color: white;
             margin-bottom: 10px;
             font-weight: bold;
-        }
-        .userDetails{
-            color: white;
         }
     
         .message small {
@@ -131,7 +138,7 @@
 <body>
     <div class="head">
         <h1><b>Anonymous Chat</b></h1>
-        <button id="logoutButton" style="border-radius:7px;margin-right:5px;color:black;background-color:white;" >Logout</button> 
+        <button id="logoutButton" class="button logoutButton">Logout</button>
     </div>
     <div class="chat-container">
         <div id="userDetails">
