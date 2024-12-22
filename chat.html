@@ -17,7 +17,10 @@
             background-image: url('https://i.pinimg.com/originals/9e/33/18/9e3318949a706696a99e86ac3e8f5dc2.jpg');
             background-size: cover;
             background-position: center;
-/*             overflow: hidden; /* Prevent overflowing */ */
+            scrollbar-width: none; /* Hides scrollbar in Firefox */
+        }
+        body::-webkit-scrollbar {
+            display: none; /* Webkit-based browsers */
         }
         
         @media only screen and (max-width: 600px) {
@@ -64,8 +67,8 @@
         
         .footer {
             text-align: center;
-            padding: 25px; /* Increased padding for better spacing */
-            height: 170px; /* Increased height */
+            padding: 20px; /* Increased padding for better spacing */
+            height: 100px; /* Increased height */
             background-color: rgba(55, 10, 234, 0.2); /* Slightly transparent background */
             color: white;
             border-radius: 8px;
