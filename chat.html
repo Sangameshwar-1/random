@@ -14,14 +14,22 @@
             height: 100vh;
             margin: 0;
             background-color: #f1f1f1;
-            transition: background-color 0.3s ease-in-out;
+            background-image: url('https://images.app.goo.gl/v6pwTFHpJA6n9Xw28'); /* Replace with a direct URL if needed */
+            background-size: cover;
+            background-position: center;
+            filter: blur(10px);
+        }
+
+        .head, .footer, .chat-container {
+            position: relative;
+            z-index: 1; /* Ensures these elements are above the blurred background */
         }
 
         .head {
             width: 100%;
             text-align: center;
-            padding: 20px;
-            background-color: #4CAF50;
+            padding: 10px;
+            background-color: rgba(76, 175, 80, 0.8);
             color: white;
             border-radius: 8px;
             margin-bottom: 20px;
@@ -31,7 +39,7 @@
             width: 100%;
             text-align: center;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.8);
             color: white;
             border-radius: 8px;
             margin-top: 20px;
@@ -42,12 +50,11 @@
             flex-grow: 1;
             padding: 20px;
             box-sizing: border-box;
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            max-width: 800px;
         }
 
         .messages {
@@ -85,45 +92,11 @@
         .message small {
             float: right;
         }
-
-        /* Dark mode style */
-        body.dark-mode {
-            background-color: #333;
-        }
-
-        .chat-container.dark-mode {
-            background-color: #444;
-        }
-
-        .messages.dark-mode {
-            background-color: #555;
-            border-color: #444;
-        }
-
-        button.dark-mode {
-            background-color: #555;
-        }
-
-        /* Toggle button */
-        #toggleButton {
-            margin: 20px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        #toggleButton:hover {
-            background-color: #45a049;
-        }
     </style>
 </head>
 <body>
     <div class="head">
-        Anonymous Chat
+        Anonymous  Chat
     </div>
     <div class="chat-container">
         <div id="userDetails">
@@ -135,9 +108,8 @@
         <input type="text" id="messageInput" placeholder="Type a message" />
         <button id="sendButton">Send</button>
     </div>
-    <button id="toggleButton">Toggle Color</button>
     <div class="footer">
-        <li>Contact: Test@mail.com</li>
+        <li>Contact:Test@mail.com</li>
         <li>Developed by: Testname </li>
     </div>
 
@@ -230,15 +202,6 @@
 
         // Attach event listener to the send button
         document.getElementById("sendButton").addEventListener("click", sendMessage);
-
-        // Toggle color scheme
-        const toggleButton = document.getElementById("toggleButton");
-        toggleButton.addEventListener("click", function() {
-            document.body.classList.toggle("dark-mode");
-            document.querySelector(".chat-container").classList.toggle("dark-mode");
-            document.querySelector(".messages").classList.toggle("dark-mode");
-            toggleButton.classList.toggle("dark-mode");
-        });
     </script>
 </body>
 </html>
