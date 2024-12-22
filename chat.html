@@ -67,14 +67,15 @@
         
         .footer {
             text-align: center;
-            padding: 20px; /* Increased padding for better spacing */
-            height: 100px; /* Increased height */
+            padding: 20px; /* Adjust padding for better spacing */
+            height: auto; /* Adjust height automatically based on content */
             background-color: rgba(55, 10, 234, 0.2); /* Slightly transparent background */
             color: white;
             border-radius: 8px;
             margin-top: 20px;
+            max-width: 100%; /* Ensure it does not exceed the container width */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
         }
-
         
         .chat-container {
             width: 75%;
