@@ -159,7 +159,15 @@
         const app = firebase.initializeApp(firebaseConfig);
         const database = firebase.database(app);
         const auth = firebase.auth();
-
+         // Check authentication status on page load
+        window.onload = function () {
+            auth.onAuthStateChanged((user) => {
+                if (!user) {
+                    // Redirect to login page if the user is not authenticated
+                    window.location.href = 'login.html'; // Replace with your actual login page URL
+                }
+            });
+        };
         // References
         const messagesRef = database.ref("messages");
         const messagesContainer = document.getElementById("messages");
