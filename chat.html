@@ -19,13 +19,13 @@
             background-position: center;
             overflow: hidden; /* Prevent overflowing */
         }
-    
+        
         @media only screen and (max-width: 600px) {
             .chat-container {
                 width: 90%;
             }
         }
-    
+        
         .head, .footer {
             width: 100%;
             max-width: 100vw; /* Ensure it matches the viewport width */
@@ -33,7 +33,7 @@
             position: relative;
             z-index: 1; /* Ensures these elements are above the background */
         }
-    
+        
         .head {
             text-align: center;
             padding: 20px;
@@ -44,11 +44,11 @@
             justify-content: space-between;
             align-items: center;
         }
-
+        
         .head h1 {
             flex-grow: 1;
         }
-
+        
         .logoutButton {
             background-color: white;
             color: black;
@@ -57,7 +57,7 @@
             padding: 10px 20px;
             cursor: pointer;
         }
-    
+        
         .footer {
             text-align: center;
             padding: 10px;
@@ -66,20 +66,20 @@
             border-radius: 8px;
             margin-top: 20px;
         }
-    
+        
         .chat-container {
             width: 75%;
             flex-grow: 1;
             padding: 20px;
             box-sizing: border-box;
-            background-color: rgb(251, 247, 251,0.1); /* Increase transparency */
+            background-color: rgba(251, 247, 251, 0.1); /* Increase transparency */
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-    
+        
         .messages {
             flex-grow: 1;
             overflow-y: auto; /* Enables vertical scrolling */
@@ -97,7 +97,7 @@
         .messages::-webkit-scrollbar {
             display: none; /* Hides scrollbar in Webkit-based browsers */
         }
-
+        
         input {
             padding: 5px;
             height: auto;
@@ -107,7 +107,7 @@
             resize: vertical;
             overflow: hidden; /* Remove the scrolling bar */
         }
-    
+        
         .button {
             margin-top: 4px;
             padding: 10px 20px;
@@ -115,23 +115,23 @@
             border: none;
             cursor: pointer;
         }
-
+        
         .sendButton {
             background-color: #0041f4;
             color: white;
         }
-
+        
         .logoutButton {
             background-color: white;
             color: black;
         }
-    
+        
         .user-info {
             color: white;
             margin-bottom: 10px;
             font-weight: bold;
         }
-    
+        
         .message small {
             float: right;
         }
