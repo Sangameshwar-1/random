@@ -95,19 +95,22 @@
         const messageInput = document.getElementById("messageInput");
         const userInfo = document.getElementById("userInfo");
 
-        // Get current user info
-        const user = auth.currentUser;
-        if (user) {
-            // Display user info
-            userInfo.innerHTML = `Logged in as: ${user.displayName || "Anonymous"}`;
-        }
+        // Listen for authentication state changes
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // Display user info
+                userInfo.innerHTML = `Logged in as: ${user.displayName || "Anonymous"}`;
+            } else {
+                userInfo.innerHTML = "Not logged in.";
+            }
+        });
 
         // Function to send a message
         function sendMessage() {
             const message = messageInput.value.trim();
             if (message) {
                 const timestamp = new Date().toISOString();
-                const username = user ? user.displayName : "Anonymous"; // Get the username of the logged-in user
+                const username = auth.currentUser ? auth.currentUser.displayName : "Anonymous"; // Get the username of the logged-in user
                 messagesRef.push({
                     username: username,
                     message: message,
