@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auth Page</title>
     <style>
-       /* General Styling */
+        /* General Styling */
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
@@ -16,7 +16,7 @@
             background: linear-gradient(135deg, #6a11cb, #2575fc);
             color: #333;
         }
-        
+
         /* Auth Container */
         .auth-container {
             max-width: 400px;
@@ -27,8 +27,10 @@
             border-radius: 12px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
             animation: fadeIn 1s ease-in-out;
+            display: flex;
+            flex-direction: column;
         }
-        
+
         /* Headings */
         .auth-container h2 {
             margin-bottom: 20px;
@@ -36,26 +38,26 @@
             color: #333;
             text-align: center;
         }
-        
+
         .auth-container h3 {
             font-size: 14px;
             color: #666;
             margin-bottom: 20px;
             text-align: center;
         }
-        
+
         /* Form Group Styling */
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-group label {
             display: block;
             font-size: 14px;
             margin-bottom: 8px;
             color: #555;
         }
-        
+
         input, select {
             width: 100%;
             padding: 10px 15px;
@@ -65,13 +67,13 @@
             transition: all 0.3s ease;
             background-color: #f9f9f9;
         }
-        
+
         input:focus, select:focus {
             border-color: #6a11cb;
             outline: none;
             box-shadow: 0 0 5px rgba(106, 17, 203, 0.4);
         }
-        
+
         /* Buttons */
         button {
             width: 100%;
@@ -84,22 +86,17 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         button:hover {
             background-color: #2575fc;
         }
-        
+
         /* Redirect and Info Text */
         #signupRedirect p, div p {
             font-size: 14px;
             text-align: center;
         }
-        
-        #signupContainer {
-            display: flex;
-            flex-direction: column;
-        }
-        
+
         #signupRedirect button, div p button {
             background: none;
             border: none;
@@ -108,11 +105,11 @@
             text-decoration: underline;
             font-size: 14px;
         }
-        
+
         #signupRedirect button:hover, div p button:hover {
             color: #2575fc;
         }
-        
+
         /* Error Messages */
         #signupErrorMessage, #errorMessage {
             display: none; /* Hide by default */
@@ -121,18 +118,18 @@
             text-align: center;
             margin-top: 10px;
         }
-        
+
         /* Select Styling */
         .auth-container .form-group select {
             background-color: #fff;
             cursor: pointer;
         }
-        
+
         /* Highlight Button Text */
         div p button {
             font-weight: bold;
         }
-        
+
         /* Animations */
         @keyframes fadeIn {
             from {
@@ -143,6 +140,15 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        /* Initial State */
+        #authContainer {
+            display: flex; /* Show login container by default */
+        }
+
+        #signupContainer {
+            display: none; /* Hide signup container initially */
         }
     </style>
 </head>
@@ -166,7 +172,7 @@
         <div id="errorMessage">Invalid credentials. Please try again.</div>
     </div>
 
-    <div id="signupContainer" class="auth-container" style="display: none;">
+    <div id="signupContainer" class="auth-container">
         <h2>Create a New Account</h2>
         <div class="form-group">
             <label for="username">Username:</label>
@@ -194,9 +200,6 @@
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
         // Firebase Configuration (replace with your own config)
         const firebaseConfig = {
@@ -271,12 +274,12 @@
         document.getElementById("loginButton").addEventListener("click", login);
         document.getElementById("signupButton").addEventListener("click", signup);
         document.getElementById("showSignup").addEventListener("click", () => {
-            authContainer.style.display = "none";
-            signupContainer.style.display = "flex";
+            authContainer.style.display = "none"; // Hide login container
+            signupContainer.style.display = "flex"; // Show signup container
         });
         document.getElementById("showLogin").addEventListener("click", () => {
-            signupContainer.style.display = "none";
-            authContainer.style.display = "flex";
+            signupContainer.style.display = "none"; // Hide signup container
+            authContainer.style.display = "flex"; // Show login container
         });
     </script>
 </body>
