@@ -37,6 +37,7 @@
             margin-bottom: 10px;
             padding: 8px;
             border-radius: 5px;
+            word-wrap: break-word;
         }
 
         .user-message {
@@ -85,19 +86,25 @@
 
     <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
     <script>
-        const socket = io('http://10.10.0.22:3000'); // Replace with your IP or public URL
- // Adjust server URL if hosted online
+        // Replace with your server's IP address or public URL
+        const socket = io('http://10.10.0.22:3000');
 
         const messagesDiv = document.getElementById('messages');
         const messageInput = document.getElementById('message-input');
         const sendBtn = document.getElementById('send-btn');
 
+        // Handle socket connection error
+        socket.on('connect_error', (error) => {
+            console.error('Connection error:', error.message);
+            alert('Unable to connect to the server. Please check the server status.');
+        });
+
         // Send message to server
         sendBtn.addEventListener('click', () => {
             const message = messageInput.value.trim();
             if (message) {
-                socket.emit('chat message', message);
-                addMessage({ text: message, sender: 'self' }, 'user-message');
+                socket.emit('chat message', message); // Emit message to the server
+                addMessage({ text: message, sender: socket.id }, 'user-message');
                 messageInput.value = '';
             }
         });
