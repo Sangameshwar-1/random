@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auth Page</title>
     <style>
+        /* General Styling */
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
@@ -16,6 +17,7 @@
             color: #333;
         }
         
+        /* Auth Container */
         .auth-container {
             max-width: 400px;
             width: 100%;
@@ -27,18 +29,22 @@
             animation: fadeIn 1s ease-in-out;
         }
         
+        /* Headings */
         .auth-container h2 {
             margin-bottom: 20px;
             font-size: 24px;
             color: #333;
+            text-align: center;
         }
         
         .auth-container h3 {
             font-size: 14px;
             color: #666;
             margin-bottom: 20px;
+            text-align: center;
         }
         
+        /* Form Group Styling */
         .form-group {
             margin-bottom: 20px;
         }
@@ -57,6 +63,7 @@
             border-radius: 6px;
             font-size: 14px;
             transition: all 0.3s ease;
+            background-color: #f9f9f9;
         }
         
         input:focus, select:focus {
@@ -65,6 +72,7 @@
             box-shadow: 0 0 5px rgba(106, 17, 203, 0.4);
         }
         
+        /* Buttons */
         button {
             width: 100%;
             padding: 12px 15px;
@@ -81,6 +89,7 @@
             background-color: #2575fc;
         }
         
+        /* Redirect and Info Text */
         #signupRedirect p, div p {
             font-size: 14px;
             text-align: center;
@@ -99,13 +108,27 @@
             color: #2575fc;
         }
         
-        #errorMessage, #signupErrorMessage {
+        /* Error Messages */
+        #signupErrorMessage, #errorMessage {
+            display: none; /* Hide by default */
             color: red;
             font-size: 12px;
             text-align: center;
             margin-top: 10px;
         }
         
+        /* Select Styling */
+        .auth-container .form-group select {
+            background-color: #fff;
+            cursor: pointer;
+        }
+        
+        /* Highlight Button Text */
+        div p button {
+            font-weight: bold;
+        }
+        
+        /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -116,6 +139,7 @@
                 transform: translateY(0);
             }
         }
+
     </style>
 </head>
 <body>
