@@ -16,14 +16,13 @@
             background-image: url('https://example.com/your-image.jpg'); /* Replace with a direct URL to the image */
             background-size: cover;
             background-position: center;
-            filter: blur(10px); /* Apply blur to the background */
         }
-
+        
         .head, .footer, .chat-container {
             position: relative;
-            z-index: 1; /* Ensures these elements are above the blurred background */
+            z-index: 1; /* Ensures these elements are above the background */
         }
-
+        
         .head {
             width: 100%;
             text-align: center;
@@ -33,7 +32,7 @@
             border-radius: 8px;
             margin-bottom: 20px;
         }
-
+        
         .footer {
             width: 100%;
             text-align: center;
@@ -43,19 +42,19 @@
             border-radius: 8px;
             margin-top: 20px;
         }
-
+        
         .chat-container {
             width: 100%;
             flex-grow: 1;
             padding: 20px;
             box-sizing: border-box;
-            background-color: rgba(255, 255, 255, 0.7); /* Light semi-transparent background */
+            background-color: rgba(255, 255, 255, 0.5); /* Increase transparency */
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
         }
-
+        
         .messages {
             flex-grow: 1;
             overflow-y: auto;
@@ -65,7 +64,7 @@
             background-color: #f9f9f9;
             border-radius: 4px;
         }
-
+        
         input {
             width: calc(100% - 60px);
             padding: 10px;
@@ -73,7 +72,7 @@
             border-radius: 4px;
             border: 1px solid #ddd;
         }
-
+        
         button {
             padding: 10px 20px;
             border-radius: 4px;
@@ -82,12 +81,12 @@
             color: white;
             cursor: pointer;
         }
-
+        
         .user-info {
             margin-bottom: 10px;
             font-weight: bold;
         }
-
+        
         .message small {
             float: right;
         }
