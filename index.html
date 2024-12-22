@@ -5,144 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auth Page</title>
     <style>
-        /* General Styling */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: #333;
+            background-color: #f1f1f1;
         }
 
-        /* Auth Container */
         .auth-container {
-            max-width: 400px;
             width: 100%;
-            padding: 30px;
+            height: 100%;
+            padding: 20px;
             box-sizing: border-box;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1s ease-in-out;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Headings */
-        .auth-container h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #333;
-            text-align: center;
-        }
-
-        .auth-container h3 {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        /* Form Group Styling */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-group label {
             display: block;
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: #555;
+            margin-bottom: 5px;
         }
 
         input, select {
-            width: 100%;
-            padding: 10px 15px;
+            width: calc(100% - 60px);
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 4px;
             border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            background-color: #f9f9f9;
         }
 
-        input:focus, select:focus {
-            border-color: #6a11cb;
-            outline: none;
-            box-shadow: 0 0 5px rgba(106, 17, 203, 0.4);
-        }
-
-        /* Buttons */
         button {
-            width: 100%;
-            padding: 12px 15px;
-            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 4px;
             border: none;
-            border-radius: 6px;
-            background-color: #6a11cb;
-            color: #fff;
+            background-color: #4CAF50;
+            color: white;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        button:hover {
-            background-color: #2575fc;
-        }
-
-        /* Redirect and Info Text */
-        #signupRedirect p, div p {
-            font-size: 14px;
-            text-align: center;
-        }
-
-        #signupRedirect button, div p button {
-            background: none;
-            border: none;
-            color: #6a11cb;
-            cursor: pointer;
-            text-decoration: underline;
-            font-size: 14px;
-        }
-
-        #signupRedirect button:hover, div p button:hover {
-            color: #2575fc;
-        }
-
-        /* Error Messages */
-        #signupErrorMessage, #errorMessage {
-            display: none; /* Hide by default */
+        #errorMessage, #signupErrorMessage {
             color: red;
-            font-size: 12px;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Initial State */
-        #authContainer {
-            display: flex; /* Show login container by default */
-        }
-
-        #signupContainer {
-            display: none; /* Hide signup container initially */
+            display: none;
         }
     </style>
 </head>
 <body>
     <div id="authContainer" class="auth-container">
+        <h3>Make sure you create the account first</h3>
+        <h3>Then you can login in any device</h3>
         <h2>Login to Chat</h2>
         <div class="form-group">
             <label for="email">Email:</label>
@@ -159,7 +81,7 @@
         <div id="errorMessage">Invalid credentials. Please try again.</div>
     </div>
 
-    <div id="signupContainer" class="auth-container">
+    <div id="signupContainer" class="auth-container" style="display: none;">
         <h2>Create a New Account</h2>
         <div class="form-group">
             <label for="username">Username:</label>
@@ -173,20 +95,25 @@
             <label for="signupPassword">Password:</label>
             <input type="password" id="signupPassword" placeholder="Enter your password" required>
         </div>
+        <div class="form-group">
+            <label for="group">Group:</label>
+            <select id="group" required>
+                <option value="RGUKT BASAR">RGUKT BASAR</option>
+                <option value="IIIT HYD">IIIT HYD</option>
+            </select>
+        </div>
         <button id="signupButton">Sign Up</button>
-        <div id="signupErrorMessage">Sign up failed. Please try again.</div>
+        <div id="signupErrorMessage" style="color: red; display: none;">Sign up failed. Please try again.</div>
         <div>
             <p>Already have an account? <button id="showLogin">Login</button></p>
         </div>
     </div>
 
-    <!-- Add Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-database.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
-        // Firebase Configuration
+        // Firebase Configuration (replace with your own config)
         const firebaseConfig = {
             apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
             authDomain: "adpsr-75e1f.firebaseapp.com",
@@ -201,7 +128,7 @@
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const database = firebase.database();
+        const database = firebase.database(app);
 
         // References
         const authContainer = document.getElementById("authContainer");
@@ -211,11 +138,12 @@
 
         // Function to handle login
         function login(event) {
-            event.preventDefault();
+            event.preventDefault();  // Prevent form submission
+            
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
-
-            if (!email || !password) {
+            
+            if (email === "" || password === "") {
                 errorMessage.style.display = "block";
                 errorMessage.textContent = "Email and password cannot be empty!";
                 return;
@@ -225,9 +153,12 @@
                 .then(() => {
                     authContainer.style.display = "none";
                     alert("Login successful!");
+
+                    // Redirect to chat.html after successful login
                     window.location.href = "chat.html";
                 })
                 .catch((error) => {
+                    console.error("Login Error:", error.message);
                     errorMessage.style.display = "block";
                     errorMessage.textContent = error.message;
                 });
@@ -243,13 +174,17 @@
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    user.updateProfile({ displayName: username }).then(() => {
-                        database.ref(`users/${user.uid}`).set({ group });
+                    user.updateProfile({
+                        displayName: username
+                    }).then(() => {
+                        const userRef = database.ref(`users/${user.uid}`);
+                        userRef.set({ group: group });
                         signupContainer.style.display = "none";
                         alert("Signup successful!");
                     });
                 })
                 .catch((error) => {
+                    console.error("Signup Error:", error.message);
                     signupErrorMessage.style.display = "block";
                     signupErrorMessage.textContent = error.message;
                 });
@@ -259,15 +194,13 @@
         document.getElementById("loginButton").addEventListener("click", login);
         document.getElementById("signupButton").addEventListener("click", signup);
         document.getElementById("showSignup").addEventListener("click", () => {
-            authContainer.style.display = "none"; // Hide login container
-            signupContainer.style.display = "flex"; // Show signup container
+            authContainer.style.display = "none";
+            signupContainer.style.display = "flex";
         });
         document.getElementById("showLogin").addEventListener("click", () => {
-            signupContainer.style.display = "none"; // Hide signup container
-            authContainer.style.display = "flex"; // Show login container
+            signupContainer.style.display = "none";
+            authContainer.style.display = "flex";
         });
     </script>
 </body>
 </html>
-
-
