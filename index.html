@@ -3,65 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firebase Form Example</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <title>Anonymous Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+
+        #chat-container {
+            width: 80%;
+            max-width: 500px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        #messages div {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .user-message {
+            background-color: #d1e7dd;
+            align-self: flex-end;
+        }
+
+        .other-message {
+            background-color: #f8d7da;
+            align-self: flex-start;
+        }
+
+        #input-container {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+
+        #message-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+        }
+
+        #send-btn {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        #send-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <form id="contactForm">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <textarea name="message" placeholder="Your Message"></textarea>
-        <input type="file" name="file" accept="image/*, .pdf, .docx" required>
-        <button type="submit">Submit</button>
-    </form>
+    <div id="chat-container">
+        <div id="messages"></div>
+        <div id="input-container">
+            <input type="text" id="message-input" placeholder="Type a message...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
 
+    <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
     <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
-            authDomain: "adpsr-75e1f.firebaseapp.com",
-            databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
-            projectId: "adpsr-75e1f",
-            storageBucket: "adpsr-75e1f.appspot.com",
-            messagingSenderId: "959425930437",
-            appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
-            measurementId: "G-1X15K2TPH4"
-        };
+        const socket = io('http://localhost:3000'); // Change to your server URL
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        const storage = firebase.storage();
+        const messagesDiv = document.getElementById('messages');
+        const messageInput = document.getElementById('message-input');
+        const sendBtn = document.getElementById('send-btn');
 
-        // Form submission logic
-        const form = document.getElementById('contactForm');
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const formData = new FormData(form);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-
-            // Handle file upload
-            const file = formData.get('file');
-            const fileRef = storage.ref('uploads/' + file.name);
-            
-            fileRef.put(file).then(() => {
-                fileRef.getDownloadURL().then((url) => {
-                    // Add file URL to the form data before pushing to database
-                    data.fileUrl = url;
-
-                    // Save form data along with file URL to Firebase Realtime Database
-                    database.ref('submissions').push(data)
-                        .then(() => alert('Form submitted successfully!'))
-                        .catch(err => console.error('Error:', err));
-                });
-            }).catch(err => console.error('File upload error:', err));
+        // Send message to server
+        sendBtn.addEventListener('click', () => {
+            const message = messageInput.value;
+            if (message.trim() !== '') {
+                socket.emit('chat message', message);
+                addMessage(message, 'user-message');
+                messageInput.value = '';
+            }
         });
+
+        // Listen for messages from server
+        socket.on('chat message', (message) => {
+            addMessage(message, 'other-message');
+        });
+
+        // Add message to chat
+        function addMessage(message, className) {
+            const div = document.createElement('div');
+            div.textContent = message;
+            div.className = className;
+            messagesDiv.appendChild(div);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
     </script>
 </body>
 </html>
