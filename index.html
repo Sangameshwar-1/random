@@ -12,54 +12,113 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f1f1f1;
+            background-color: #e9ecef;
         }
-
+    
         .auth-container {
             width: 100%;
-            height: 100%;
+            max-width: 400px;
             padding: 20px;
             box-sizing: border-box;
-            background-color: white;
+            background-color: #ffffff;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
-
+    
         .form-group {
-            margin-bottom: 15px;
+            width: 100%;
+            margin-bottom: 20px;
         }
-
+    
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #333;
         }
-
+    
         input, select {
-            width: calc(100% - 60px);
-            padding: 10px;
-            margin-right: 10px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
         }
-
+    
+        input:focus, select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+    
         button {
-            padding: 10px 20px;
-            border-radius: 4px;
+            padding: 12px 25px;
+            border-radius: 5px;
             border: none;
             background-color: #4CAF50;
             color: white;
+            font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
-
+    
+        button:hover {
+            background-color: #45a049;
+        }
+    
         #errorMessage, #signupErrorMessage {
             color: red;
+            font-size: 14px;
+            display: none;
+            margin-top: 10px;
+        }
+    
+        #signupRedirect {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    
+        #signupRedirect button {
+            background-color: transparent;
+            color: #007bff;
+            border: none;
+            cursor: pointer;
+        }
+    
+        #signupRedirect button:hover {
+            text-decoration: underline;
+        }
+    
+        h2, h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+    
+        #signupContainer {
             display: none;
         }
+    
+        #signupContainer h2, #authContainer h2 {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+    
+        .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+    
+        .form-group input[type="email"], .form-group input[type="password"] {
+            padding: 12px;
+            font-size: 16px;
+        }
     </style>
+
 </head>
 <body>
     <div id="authContainer" class="auth-container">
