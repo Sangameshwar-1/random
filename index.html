@@ -119,17 +119,6 @@
             margin-top: 10px;
         }
 
-        /* Select Styling */
-        .auth-container .form-group select {
-            background-color: #fff;
-            cursor: pointer;
-        }
-
-        /* Highlight Button Text */
-        div p button {
-            font-weight: bold;
-        }
-
         /* Animations */
         @keyframes fadeIn {
             from {
@@ -154,8 +143,6 @@
 </head>
 <body>
     <div id="authContainer" class="auth-container">
-        <h3>Make sure you create the account first</h3>
-        <h3>Then you can log in on any device</h3>
         <h2>Login to Chat</h2>
         <div class="form-group">
             <label for="email">Email:</label>
@@ -186,13 +173,6 @@
             <label for="signupPassword">Password:</label>
             <input type="password" id="signupPassword" placeholder="Enter your password" required>
         </div>
-        <div class="form-group">
-            <label for="group">Group:</label>
-            <select id="group" required>
-                <option value="RGUKT BASAR">RGUKT BASAR</option>
-                <option value="IIIT HYD">IIIT HYD</option>
-            </select>
-        </div>
         <button id="signupButton">Sign Up</button>
         <div id="signupErrorMessage">Sign up failed. Please try again.</div>
         <div>
@@ -200,23 +180,27 @@
         </div>
     </div>
 
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-database.js"></script>
+
     <script>
-        // Firebase Configuration (replace with your own config)
+        // Firebase Configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
-            authDomain: "adpsr-75e1f.firebaseapp.com",
-            databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
-            projectId: "adpsr-75e1f",
-            storageBucket: "adpsr-75e1f.appspot.com",
-            messagingSenderId: "959425930437",
-            appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
-            measurementId: "G-1X15K2TPH4"
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
         };
 
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const database = firebase.database(app);
+        const database = firebase.database();
 
         // References
         const authContainer = document.getElementById("authContainer");
@@ -284,3 +268,5 @@
     </script>
 </body>
 </html>
+
+
