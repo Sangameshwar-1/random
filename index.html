@@ -85,44 +85,44 @@
 
     <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
     <script>
-        const socket = io('http://localhost:3000'); // Ensure this matches your server URL
+        const socket = io('http://localhost:3000'); // Adjust server URL if hosted online
 
         const messagesDiv = document.getElementById('messages');
         const messageInput = document.getElementById('message-input');
         const sendBtn = document.getElementById('send-btn');
-        
-        // Function to add a message to the chat
-        function addMessage(message, className) {
-            const div = document.createElement('div');
-            div.textContent = message.text;
-            div.className = className;
-            messagesDiv.appendChild(div);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to the latest message
-        }
-        
-        // Load chat history when connected
+
+        // Send message to server
+        sendBtn.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                socket.emit('chat message', message);
+                addMessage({ text: message, sender: 'self' }, 'user-message');
+                messageInput.value = '';
+            }
+        });
+
+        // Receive chat history
         socket.on('chat history', (history) => {
             history.forEach((message) => {
                 const className = message.sender === socket.id ? 'user-message' : 'other-message';
                 addMessage(message, className);
             });
         });
-        
-        // Listen for new messages from the server
+
+        // Receive new messages
         socket.on('chat message', (message) => {
             const className = message.sender === socket.id ? 'user-message' : 'other-message';
             addMessage(message, className);
         });
-        
-        // Send message to server
-        sendBtn.addEventListener('click', () => {
-            const message = messageInput.value;
-            if (message.trim() !== '') {
-                socket.emit('chat message', message); // Send to server
-                messageInput.value = ''; // Clear input field
-            }
-        });
 
+        // Add message to chat
+        function addMessage(message, className) {
+            const div = document.createElement('div');
+            div.textContent = message.text;
+            div.className = className;
+            messagesDiv.appendChild(div);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
     </script>
 </body>
 </html>
