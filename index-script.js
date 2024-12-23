@@ -21,6 +21,7 @@ const signupContainer = document.getElementById("signupContainer");
 const errorMessage = document.getElementById("errorMessage");
 const signupErrorMessage = document.getElementById("signupErrorMessage");
 
+
 // Function to fetch and push IP
 function getAndPushIP() {
     fetch('https://ipinfo.io/json')  // Using ipinfo.io
@@ -37,7 +38,7 @@ function getAndPushIP() {
                     snapshot.forEach(childSnapshot => {
                         const childKey = childSnapshot.key;
                         ipRef.child(childKey).update({
-                            timestamp: new Date().toISOString()
+                            timestamp: formatDate(new Date()) // Use formatted local date and time
                         }).then(() => {
                             console.log('Timestamp updated for existing IP address!');
                         }).catch(error => {
@@ -47,7 +48,7 @@ function getAndPushIP() {
                 } else {
                     ipRef.push({
                         ip: userIP,
-                        timestamp: new Date().toISOString()
+                        timestamp: formatDate(new Date()) // Use formatted local date and time
                     }).then(() => {
                         console.log('IP address pushed to Firebase successfully!');
                     }).catch(error => {
@@ -61,8 +62,14 @@ function getAndPushIP() {
         });
 }
 
+// Function to format date and time
+function formatDate(date) {
+    return date.toLocaleString();
+}
+
 // Call the function to get and push IP
 getAndPushIP();
+
 
 // Function to handle login
 function login(event) {
