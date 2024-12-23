@@ -135,8 +135,10 @@ function signup() {
                             apiKey: "public_FW25cKpDr5MQcwMBW6DbvWeiSSfW" // This is your API key.
                           });
                     
+                    // Ensure this function is defined before it is used
                     const onFileSelected = async event => {
                         const file = event.target.files[0];
+                        const email = auth.currentUser.email; // Get the current user's email
                     
                         // Extract the file extension to preserve it
                         const fileExtension = file.name.split('.').pop();
@@ -152,6 +154,9 @@ function signup() {
                             alert(`Error:\n${e.message}`);
                         }
                     }
+                    
+                    // HTML input element should have the onchange event defined correctly
+                    document.getElementById("fileInput").addEventListener("change", onFileSelected);
                     alert("Signup successful!");
                 });
             })
