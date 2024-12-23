@@ -50,7 +50,7 @@
                 const messageData = snapshot.val();
                 const messageElement = document.createElement("div");
                 messageElement.classList.add("message");
-                messageElement.innerHTML = `<strong>${messageData.username}:</strong> ${messageData.message} <small>${formatDate(messageData.timestamp)}</small>`;
+                messageElement.innerHTML = `<strong>${messageData.username}:</strong> ${messageData.message} <small>${messageData.timestamp}</small>`;
                 messagesContainer.appendChild(messageElement);
                 messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to latest message
             });
