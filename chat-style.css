@@ -1,0 +1,145 @@
+/* <style> */
+            /* General Styling */
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between; /* Ensure content is spaced evenly */
+                align-items: center; /* Center horizontally */
+                min-height: 100vh; /* Minimum height set to 100% of the viewport height */
+                width: 94vw; /* Fix width to 100% of the viewport width */
+                margin: 0;
+                background-image: url('https://i.pinimg.com/originals/9e/33/18/9e3318949a706696a99e86ac3e8f5dc2.jpg');
+                background-size: cover;
+                background-position: center;
+                scrollbar-width: none; /* Hides scrollbar in Firefox */
+                /* overflow: hidden; /* Prevent overflowing */
+            }
+            body::-webkit-scrollbar {
+                display: none; /* Webkit-based browsers */
+            }
+            
+            @media only screen and (max-width: 600px) {
+                .chat-container {
+                    width: 90%;
+                }
+                .head {
+                    flex-direction: column;
+                    padding: 10px;
+                }
+                .head h1 {
+                    margin-bottom: 10px;
+                }
+                .logoutButton {
+                    margin-top: 10px;
+                }
+            }
+            
+            .head, .footer {
+                width: 101%;
+                max-width: none ; /* no restriction for max width*/ 
+                margin: auto; /* Center the container */
+                position: relative;
+                z-index: 1; /* Ensures these elements are above the background */
+            }
+            
+            .head {
+                text-align: center;
+                padding: 20px;
+                background-color: rgba(51, 8, 225, 0.2); /* Slightly transparent background */
+                color: rgb(251, 250, 250);
+                border-radius: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+            }
+            
+            .head h1 {
+                flex-grow: 1;
+                text-align: center;
+            }
+            
+            .logoutButton {
+                background-color: white;
+                color: black;
+                border-radius: 7px;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                margin-top: 10px; /* Add margin for spacing */
+            }
+            
+            .footer {
+                text-align: center;
+                padding: 20px; /* Adjust padding for better spacing */
+                height: auto; /* Adjust height automatically based on content */
+                background-color: rgba(55, 10, 234, 0.2); /* Slightly transparent background */
+                color: white;
+                border-radius: 8px;
+                margin-top: 20px;
+                max-width: 101%; /* Ensure it does not exceed the container width */
+                box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            }
+            
+            .chat-container {
+                width: 90%;
+                flex-grow: 1;
+                padding: 20px;
+                box-sizing: border-box;
+                background-color: rgba(251, 247, 251, 0.1); /* Increase transparency */
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top:5px;
+            }
+            
+            .messages {
+                flex-grow: 1;
+                overflow-y: auto; /* Enables vertical scrolling */
+                margin-bottom: 10px;
+                border: 1px solid #ddd;
+                padding: 10px;
+                background-color: rgba(249, 249, 249, 0.3); /* Increase transparency */
+                border-radius: 4px;
+                display: flex;
+                flex-direction: column;
+                height: 300px; /* Fixed height for the container */
+                scrollbar-width: none; /* Hides scrollbar in Firefox */
+                width: 90%; /* Increase width to fill the container */
+            }
+            
+            .messages::-webkit-scrollbar {
+                display: none; /* Hides scrollbar in Webkit-based browsers */
+            }
+            
+            #messageInput {
+                width: 85%;
+                padding: 10px;
+                border-radius: 4px;
+                border: 1px solid #ddd;
+                margin-bottom: 10px;
+            }
+            
+            #sendButton {
+                width: 85%;
+                padding: 10px;
+                background-color: #0041f4;
+                color: white;
+                border-radius: 4px;
+                border: none;
+                cursor: pointer;
+            }
+            
+            .message {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+            }
+            
+            .message small {
+                margin-left: auto; /* Pushes the timestamp to the rightmost point */
+            }
+/* </style> */
