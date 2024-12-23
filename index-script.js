@@ -84,9 +84,10 @@
                       });
               }
       
-                } else {
-                    document.getElementById("signupErrorMessage").style.display = "block";
-                }
+            } 
+          else {
+               document.getElementById("signupErrorMessage").style.display = "block";
+          }
       });
         
         // Event listeners
