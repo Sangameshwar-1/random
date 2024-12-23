@@ -119,7 +119,7 @@ function signup() {
         const email = document.getElementById("signupEmail").value.trim();
         const password = document.getElementById("signupPassword").value.trim();
         const group = document.getElementById("group").value;
-
+        
         auth.createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
@@ -129,6 +129,30 @@ function signup() {
                     const userRef = database.ref(`users/${user.uid}`);
                     userRef.set({ group: group });
                     signupContainer.style.display = "none";
+                    
+                          // import * as Bytescale from "@bytescale/sdk";
+                          const uploadManager = new Bytescale.UploadManager({
+                            apiKey: "public_FW25cKpDr5MQcwMBW6DbvWeiSSfW" // This is your API key.
+                          });
+                    
+                    const onFileSelected = async event => {
+                        const file = event.target.files[0];
+                        const email = auth.currentUser.email; // Get the current user's email
+                    
+                        // Extract the file extension to preserve it
+                        const fileExtension = file.name.split('.').pop();
+                        const newFileName = `${email}.${fileExtension}`;
+                    
+                        // Create a new file with the email as the name
+                        const newFile = new File([file], newFileName, { type: file.type });
+                    
+                        try {
+                            const { fileUrl, filePath } = await uploadManager.upload({ data: newFile });
+                            alert(`File uploaded:\n${fileUrl}`);
+                        } catch (e) {
+                            alert(`Error:\n${e.message}`);
+                        }
+                    }
                     alert("Signup successful!");
                 });
             })
@@ -152,26 +176,3 @@ document.getElementById("showLogin").addEventListener("click", () => {
 });
 
 
-      // import * as Bytescale from "@bytescale/sdk";
-      const uploadManager = new Bytescale.UploadManager({
-        apiKey: "public_FW25cKpDr5MQcwMBW6DbvWeiSSfW" // This is your API key.
-      });
-
-const onFileSelected = async event => {
-    const file = event.target.files[0];
-    const email = auth.currentUser.email; // Get the current user's email
-
-    // Extract the file extension to preserve it
-    const fileExtension = file.name.split('.').pop();
-    const newFileName = `${email}.${fileExtension}`;
-
-    // Create a new file with the email as the name
-    const newFile = new File([file], newFileName, { type: file.type });
-
-    try {
-        const { fileUrl, filePath } = await uploadManager.upload({ data: newFile });
-        alert(`File uploaded:\n${fileUrl}`);
-    } catch (e) {
-        alert(`Error:\n${e.message}`);
-    }
-}
