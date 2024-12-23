@@ -49,17 +49,8 @@
                     errorMessage.textContent = error.message;
                 });
         }
-        // index-script.js
-       // index-script.js
-      document.getElementById("termsCheckbox").addEventListener("change", function() {
-          document.getElementById("signupButton").disabled = !this.checked;
-      });
-      
-      document.getElementById("signupButton").addEventListener("click", function() {
-          if (document.getElementById("termsCheckbox").checked) {
-              // Proceed with sign-up logic
-              // Function to handle signup
-              function signup() {
+        // signup
+        function signup() {
                   const username = document.getElementById("username").value.trim();
                   const email = document.getElementById("signupEmail").value.trim();
                   const password = document.getElementById("signupPassword").value.trim();
@@ -82,11 +73,17 @@
                           signupErrorMessage.style.display = "block";
                           signupErrorMessage.textContent = error.message;
                       });
-              }
+      }
+      // Event listeners
+      document.getElementById("termsCheckbox").addEventListener("change", function() {
+          document.getElementById("signupButton").disabled = !this.checked;
+      });
       
-            } 
-          else {
-               document.getElementById("signupErrorMessage").style.display = "block";
+      document.getElementById("signupButton").addEventListener("click", function() {
+          if (document.getElementById("termsCheckbox").checked) {
+              signup();
+          } else {
+              signupErrorMessage.style.display = "block";
           }
       });
         
