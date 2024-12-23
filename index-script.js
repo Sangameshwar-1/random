@@ -158,11 +158,11 @@ document.getElementById("showLogin").addEventListener("click", () => {
       });
 
       const onFileSelected = async event => {
-        const file = event.target.files[0];
-        try {
-          const { fileUrl, filePath } = await uploadManager.upload({ data: file });
-          alert(`File uploaded:\n${fileUrl}`);
-        } catch (e: any) {
-          alert(`Error:\n${e.message}`);
+      const file = event.target.files[0];
+            try {
+                const { fileUrl, filePath } = await uploadManager.upload({ data: file });
+                alert(`File uploaded:\n${fileUrl}`);
+            } catch (e) { // Remove ': any'
+                alert(`Error:\n${e.message}`);
+            }
         }
-      }
