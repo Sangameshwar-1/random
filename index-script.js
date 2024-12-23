@@ -20,13 +20,13 @@ const authContainer = document.getElementById("authContainer");
 const signupContainer = document.getElementById("signupContainer");
 const errorMessage = document.getElementById("errorMessage");
 const signupErrorMessage = document.getElementById("signupErrorMessage");
-// Ip sender
+// Ip sender function with debugging logs
 function getAndPushIP() {
     fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
         .then(data => {
             const userIP = data.ip;
-            console.log('User IP Address:', userIP);
+            console.log('Fetched IP Address:', userIP); // Debugging: Log the fetched IP
 
             const ipRef = database.ref('viewerIPs');
 
@@ -59,6 +59,7 @@ function getAndPushIP() {
         });
 }
 
+// Call the function to get and push IP
 getAndPushIP();
 
 // Function to handle login
