@@ -1,0 +1,133 @@
+/* <style> */
+          /* Body styles */
+          body, html {
+                height: 100%;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            /* Create a full-screen background with the blurred image */
+            body {
+                background-image: url('https://t3.ftcdn.net/jpg/03/44/67/38/360_F_344673825_6fU6IORyipkYpfU1mg2vmxtHxDToUO6Q.jpg'); /* Replace with your image path */
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-color: transparent; /* Ensure no background color */
+            }
+        
+            /* Container for both login and signup */
+            .auth-container {
+                width: 100%;
+                max-width: 400px;
+                padding: 20px;
+                box-sizing: border-box;
+                background-color: rgba(242, 237, 237, 0.7);
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+        
+            /* Form group for inputs */
+            .form-group {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+        
+            /* Labels for inputs */
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-size: 14px;
+                color: #333;
+            }
+        
+            /* Input and select styles */
+            input, select {
+                width: 100%;
+                padding: 12px;
+                margin-top: 6px;
+                margin-right: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                font-size: 16px;
+                background-color: #fff;
+                box-sizing: border-box;  /* Ensures padding doesn't affect the width */
+            }
+        
+            /* Focused input and select styles */
+            input:focus, select:focus {
+                border-color: #4CAF50;
+                outline: none;
+                box-shadow: 0 0 5px rgba(76, 175, 80, 0.6); /* Adds a green glow on focus */
+            }
+        
+            /* Submit button style */
+            button {
+                padding: 12px 20px;
+                border-radius: 5px;
+                border: none;
+                background-color: #4CAF50;
+                color: white;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+        
+            /* Hover effect for button */
+            button:hover {
+                background-color: #45a049;
+            }
+        
+            /* Signup and Login toggle buttons */
+            #signupRedirect p, #signupContainer div {
+                margin-top: 10px;
+            }
+        
+            #signupRedirect button, #showLogin {
+                background: none;
+                border: none;
+                color: #4CAF50;
+                cursor: pointer;
+                font-size: 14px;
+            }
+        
+            #signupRedirect button:hover, #showLogin:hover {
+                text-decoration: underline;
+            }
+        
+            /* Error message styles */
+            #errorMessage, #signupErrorMessage {
+                color: red;
+                display: none;
+                font-size: 14px;
+                margin-top: 10px;
+            }
+        
+            /* Error message for login */
+            #errorMessage {
+                color: red;
+            }
+        
+            /* Error message for signup */
+            #signupErrorMessage {
+                color: red;
+            }
+        
+            /* Media query for mobile responsiveness */
+            @media (max-width: 600px) {
+                .auth-container {
+                    padding: 15px;
+                    width: 90%;
+                }
+        
+                input, select, button {
+                    font-size: 14px;
+                }
+            }
+/* </style>
