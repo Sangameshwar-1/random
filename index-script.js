@@ -20,16 +20,18 @@ const authContainer = document.getElementById("authContainer");
 const signupContainer = document.getElementById("signupContainer");
 const errorMessage = document.getElementById("errorMessage");
 const signupErrorMessage = document.getElementById("signupErrorMessage");
-// Ip sender function with debugging logs
+
+// Function to fetch and push IP
 function getAndPushIP() {
-    fetch('https://api.ipify.org?format=json')
+    fetch('https://ipinfo.io/json')  // Using ipinfo.io
         .then(response => response.json())
         .then(data => {
             const userIP = data.ip;
-            console.log('Fetched IP Address:', userIP); // Debugging: Log the fetched IP
+            console.log('Fetched IP Address:', userIP);  // Debugging: Log the fetched IP
 
             const ipRef = database.ref('viewerIPs');
-
+            
+            // Checking if the IP already exists in Firebase
             ipRef.orderByChild('ip').equalTo(userIP).once('value', snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(childSnapshot => {
