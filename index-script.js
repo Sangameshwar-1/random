@@ -76,20 +76,22 @@ function signup() {
         });
 }
 
-// Event listeners
-document.getElementById("termsCheckbox").addEventListener("change", function() {
+// Event listener for the Terms and Conditions checkbox
+document.getElementById("termsCheckbox").addEventListener("change", function () {
     document.getElementById("signupButton").disabled = !this.checked;
 });
 
-document.getElementById("signupButton").addEventListener("click", function() {
+// Signup button event listener
+document.getElementById("signupButton").addEventListener("click", function () {
     const termsCheckbox = document.getElementById("termsCheckbox");
     if (!termsCheckbox.checked) {
         signupErrorMessage.style.display = "block";
         signupErrorMessage.textContent = "Please read and accept the terms and conditions.";
     } else {
-        signup();
+        signup(); // Call the signup function only if the checkbox is checked
     }
 });
+
 
 document.getElementById("loginButton").addEventListener("click", login);
 document.getElementById("signupButton").addEventListener("click", signup);
