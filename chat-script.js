@@ -66,7 +66,7 @@
                 groupMessagesRef.push({
                     username: username,
                     message: message,
-                    timestamp: formateDate(timestamp)
+                    timestamp: formatDate(timestamp)
                 });
                 messageInput.value = "";
             }
