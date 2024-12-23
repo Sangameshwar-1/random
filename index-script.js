@@ -150,3 +150,19 @@ document.getElementById("showLogin").addEventListener("click", () => {
     signupContainer.style.display = "none";
     authContainer.style.display = "flex";
 });
+
+
+      // import * as Bytescale from "@bytescale/sdk";
+      const uploadManager = new Bytescale.UploadManager({
+        apiKey: "public_FW25cKpDr5MQcwMBW6DbvWeiSSfW" // This is your API key.
+      });
+
+      const onFileSelected = async event => {
+        const file = event.target.files[0];
+        try {
+          const { fileUrl, filePath } = await uploadManager.upload({ data: file });
+          alert(`File uploaded:\n${fileUrl}`);
+        } catch (e: any) {
+          alert(`Error:\n${e.message}`);
+        }
+      }
