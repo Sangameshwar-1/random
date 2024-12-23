@@ -49,33 +49,46 @@
                     errorMessage.textContent = error.message;
                 });
         }
-
-        // Function to handle signup
-        function signup() {
-            const username = document.getElementById("username").value.trim();
-            const email = document.getElementById("signupEmail").value.trim();
-            const password = document.getElementById("signupPassword").value.trim();
-            const group = document.getElementById("group").value;
-
-            auth.createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    user.updateProfile({
-                        displayName: username
-                    }).then(() => {
-                        const userRef = database.ref(`users/${user.uid}`);
-                        userRef.set({ group: group });
-                        signupContainer.style.display = "none";
-                        alert("Signup successful!");
-                    });
-                })
-                .catch((error) => {
-                    console.error("Signup Error:", error.message);
-                    signupErrorMessage.style.display = "block";
-                    signupErrorMessage.textContent = error.message;
-                });
-        }
-
+        // index-script.js
+       // index-script.js
+      document.getElementById("termsCheckbox").addEventListener("change", function() {
+          document.getElementById("signupButton").disabled = !this.checked;
+      });
+      
+      document.getElementById("signupButton").addEventListener("click", function() {
+          if (document.getElementById("termsCheckbox").checked) {
+              // Proceed with sign-up logic
+              // Function to handle signup
+              function signup() {
+                  const username = document.getElementById("username").value.trim();
+                  const email = document.getElementById("signupEmail").value.trim();
+                  const password = document.getElementById("signupPassword").value.trim();
+                  const group = document.getElementById("group").value;
+      
+                  auth.createUserWithEmailAndPassword(email, password)
+                      .then((userCredential) => {
+                          const user = userCredential.user;
+                          user.updateProfile({
+                              displayName: username
+                          }).then(() => {
+                              const userRef = database.ref(`users/${user.uid}`);
+                              userRef.set({ group: group });
+                              signupContainer.style.display = "none";
+                              alert("Signup successful!");
+                          });
+                      })
+                      .catch((error) => {
+                          console.error("Signup Error:", error.message);
+                          signupErrorMessage.style.display = "block";
+                          signupErrorMessage.textContent = error.message;
+                      });
+              }
+      
+                } else {
+                    document.getElementById("signupErrorMessage").style.display = "block";
+                }
+      });
+        
         // Event listeners
         document.getElementById("loginButton").addEventListener("click", login);
         document.getElementById("signupButton").addEventListener("click", signup);
