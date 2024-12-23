@@ -21,9 +21,7 @@ const signupContainer = document.getElementById("signupContainer");
 const errorMessage = document.getElementById("errorMessage");
 const signupErrorMessage = document.getElementById("signupErrorMessage");
 // Ip sender
-// IP sender
 function getAndPushIP() {
-    // Fetch the user's IP address using the ipify API
     fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
         .then(data => {
@@ -32,10 +30,8 @@ function getAndPushIP() {
 
             const ipRef = database.ref('viewerIPs');
 
-            // Check if the IP address already exists
             ipRef.orderByChild('ip').equalTo(userIP).once('value', snapshot => {
                 if (snapshot.exists()) {
-                    // If IP exists, update the timestamp
                     snapshot.forEach(childSnapshot => {
                         const childKey = childSnapshot.key;
                         ipRef.child(childKey).update({
@@ -46,9 +42,7 @@ function getAndPushIP() {
                             console.error('Error updating timestamp:', error);
                         });
                     });
-                } 
-                else {
-                    // If IP does not exist, push the new IP and timestamp
+                } else {
                     ipRef.push({
                         ip: userIP,
                         timestamp: new Date().toISOString()
@@ -65,9 +59,7 @@ function getAndPushIP() {
         });
 }
 
-// Call the function to push IP address
 getAndPushIP();
-
 
 // Function to handle login
 function login(event) {
