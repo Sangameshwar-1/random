@@ -80,10 +80,12 @@
       });
       
       document.getElementById("signupButton").addEventListener("click", function() {
-          if (document.getElementById("termsCheckbox").checked) {
-              signup();
-          } else {
+          const termsCheckbox = document.getElementById("termsCheckbox");
+          if (!termsCheckbox.checked) {
               signupErrorMessage.style.display = "block";
+              signupErrorMessage.textContent = "Please read and accept the terms and conditions.";
+          } else {
+              signup();
           }
       });
         
