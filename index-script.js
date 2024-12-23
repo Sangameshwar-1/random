@@ -21,8 +21,16 @@ const signupContainer = document.getElementById("signupContainer");
 const errorMessage = document.getElementById("errorMessage");
 const signupErrorMessage = document.getElementById("signupErrorMessage");
 
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        // User is authenticated
+        getAndPushIP();
+    } else {
+        // User is not authenticated
+        console.error('User is not authenticated.');
+    }
+});
 
-// Function to fetch and push IP
 function getAndPushIP() {
     fetch('https://ipinfo.io/json')  // Using ipinfo.io
         .then(response => response.json())
@@ -66,10 +74,6 @@ function getAndPushIP() {
 function formatDate(date) {
     return date.toLocaleString();
 }
-
-// Call the function to get and push IP
-getAndPushIP();
-
 
 // Function to handle login
 function login(event) {
