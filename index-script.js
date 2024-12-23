@@ -1,5 +1,4 @@
-// <script>
-      // Firebase Configuration (replace with your own config)
+// Firebase Configuration (replace with your own config)
 const firebaseConfig = {
     apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
     authDomain: "adpsr-75e1f.firebaseapp.com",
@@ -49,46 +48,43 @@ function login(event) {
             errorMessage.textContent = error.message;
         });
 }
-//disabling the singup button
+
+// Disabling the signup button
 document.getElementById("termsCheckbox").addEventListener("change", function () {
     document.getElementById("signupButton").disabled = !this.checked;
 });
-// signup
-function signup() {
-    document.getElementById("signupButton").addEventListener("click", function () {
-    const termsCheckbox = document.getElementById("termsCheckbox");
-          if (!termsCheckbox.checked) {
-              signupErrorMessage.style.display = "block";
-              signupErrorMessage.textContent = "Please read and accept the terms and conditions.";
-          } 
-          else {
-               const username = document.getElementById("username").value.trim();
-                const email = document.getElementById("signupEmail").value.trim();
-                const password = document.getElementById("signupPassword").value.trim();
-                const group = document.getElementById("group").value;
-            
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        const user = userCredential.user;
-                        user.updateProfile({
-                            displayName: username
-                        }).then(() => {
-                            const userRef = database.ref(`users/${user.uid}`);
-                            userRef.set({ group: group });
-                            signupContainer.style.display = "none";
-                            alert("Signup successful!");
-                        });
-                    })
-                    .catch((error) => {
-                        console.error("Signup Error:", error.message);
-                        signupErrorMessage.style.display = "block";
-                        signupErrorMessage.textContent = error.message;
-                    });
-          }
-    });
-    
-}
 
+// Signup function
+function signup() {
+    const termsCheckbox = document.getElementById("termsCheckbox");
+    if (!termsCheckbox.checked) {
+        signupErrorMessage.style.display = "block";
+        signupErrorMessage.textContent = "Please read and accept the terms and conditions.";
+    } else {
+        const username = document.getElementById("username").value.trim();
+        const email = document.getElementById("signupEmail").value.trim();
+        const password = document.getElementById("signupPassword").value.trim();
+        const group = document.getElementById("group").value;
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                user.updateProfile({
+                    displayName: username
+                }).then(() => {
+                    const userRef = database.ref(`users/${user.uid}`);
+                    userRef.set({ group: group });
+                    signupContainer.style.display = "none";
+                    alert("Signup successful!");
+                });
+            })
+            .catch((error) => {
+                console.error("Signup Error:", error.message);
+                signupErrorMessage.style.display = "block";
+                signupErrorMessage.textContent = error.message;
+            });
+    }
+}
 
 document.getElementById("loginButton").addEventListener("click", login);
 document.getElementById("signupButton").addEventListener("click", signup);
@@ -100,4 +96,3 @@ document.getElementById("showLogin").addEventListener("click", () => {
     signupContainer.style.display = "none";
     authContainer.style.display = "flex";
 });
-// </script>
