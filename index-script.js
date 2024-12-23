@@ -49,48 +49,45 @@ function login(event) {
             errorMessage.textContent = error.message;
         });
 }
-
-// signup
-function signup() {
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("signupEmail").value.trim();
-    const password = document.getElementById("signupPassword").value.trim();
-    const group = document.getElementById("group").value;
-
-    auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            user.updateProfile({
-                displayName: username
-            }).then(() => {
-                const userRef = database.ref(`users/${user.uid}`);
-                userRef.set({ group: group });
-                signupContainer.style.display = "none";
-                alert("Signup successful!");
-            });
-        })
-        .catch((error) => {
-            console.error("Signup Error:", error.message);
-            signupErrorMessage.style.display = "block";
-            signupErrorMessage.textContent = error.message;
-        });
-}
-
-// Event listener for the Terms and Conditions checkbox
+//disabling the singup button
 document.getElementById("termsCheckbox").addEventListener("change", function () {
     document.getElementById("signupButton").disabled = !this.checked;
 });
-
-// Signup button event listener
-document.getElementById("signupButton").addEventListener("click", function () {
+// signup
+function signup() {
+    document.getElementById("signupButton").addEventListener("click", function () {
     const termsCheckbox = document.getElementById("termsCheckbox");
-    if (!termsCheckbox.checked) {
-        signupErrorMessage.style.display = "block";
-        signupErrorMessage.textContent = "Please read and accept the terms and conditions.";
-    } else {
-        signup(); // Call the signup function only if the checkbox is checked
-    }
-});
+          if (!termsCheckbox.checked) {
+              signupErrorMessage.style.display = "block";
+              signupErrorMessage.textContent = "Please read and accept the terms and conditions.";
+          } 
+          else {
+               const username = document.getElementById("username").value.trim();
+                const email = document.getElementById("signupEmail").value.trim();
+                const password = document.getElementById("signupPassword").value.trim();
+                const group = document.getElementById("group").value;
+            
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        user.updateProfile({
+                            displayName: username
+                        }).then(() => {
+                            const userRef = database.ref(`users/${user.uid}`);
+                            userRef.set({ group: group });
+                            signupContainer.style.display = "none";
+                            alert("Signup successful!");
+                        });
+                    })
+                    .catch((error) => {
+                        console.error("Signup Error:", error.message);
+                        signupErrorMessage.style.display = "block";
+                        signupErrorMessage.textContent = error.message;
+                    });
+          }
+    });
+    
+}
 
 
 document.getElementById("loginButton").addEventListener("click", login);
