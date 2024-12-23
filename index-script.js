@@ -21,6 +21,7 @@ const signupContainer = document.getElementById("signupContainer");
 const errorMessage = document.getElementById("errorMessage");
 const signupErrorMessage = document.getElementById("signupErrorMessage");
 // Ip sender
+// IP sender
 function getAndPushIP() {
     // Fetch the user's IP address using the ipify API
     fetch('https://api.ipify.org?format=json')
@@ -28,18 +29,35 @@ function getAndPushIP() {
         .then(data => {
             const userIP = data.ip;
             console.log('User IP Address:', userIP);
-            
-            // Push the IP address to Firebase Realtime Database
-            const ipRef = database.ref('viewerIPs');  // This will store the IPs in a "viewerIPs" node
-            ipRef.push({
-                ip: userIP,
-                timestamp: new Date().toISOString()  // Adding timestamp for when the IP was recorded
-            })
-            .then(() => {
-                console.log('IP address pushed to Firebase successfully!');
-            })
-            .catch((error) => {
-                console.error('Error pushing IP address to Firebase:', error);
+
+            const ipRef = database.ref('viewerIPs');
+
+            // Check if the IP address already exists
+            ipRef.orderByChild('ip').equalTo(userIP).once('value', snapshot => {
+                if (snapshot.exists()) {
+                    // If IP exists, update the timestamp
+                    snapshot.forEach(childSnapshot => {
+                        const childKey = childSnapshot.key;
+                        ipRef.child(childKey).update({
+                            timestamp: new Date().toISOString()
+                        }).then(() => {
+                            console.log('Timestamp updated for existing IP address!');
+                        }).catch(error => {
+                            console.error('Error updating timestamp:', error);
+                        });
+                    });
+                } 
+                else {
+                    // If IP does not exist, push the new IP and timestamp
+                    ipRef.push({
+                        ip: userIP,
+                        timestamp: new Date().toISOString()
+                    }).then(() => {
+                        console.log('IP address pushed to Firebase successfully!');
+                    }).catch(error => {
+                        console.error('Error pushing IP address to Firebase:', error);
+                    });
+                }
             });
         })
         .catch(error => {
@@ -49,6 +67,7 @@ function getAndPushIP() {
 
 // Call the function to push IP address
 getAndPushIP();
+
 
 // Function to handle login
 function login(event) {
