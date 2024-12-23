@@ -20,6 +20,35 @@ const authContainer = document.getElementById("authContainer");
 const signupContainer = document.getElementById("signupContainer");
 const errorMessage = document.getElementById("errorMessage");
 const signupErrorMessage = document.getElementById("signupErrorMessage");
+// Ip sender
+function getAndPushIP() {
+    // Fetch the user's IP address using the ipify API
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            const userIP = data.ip;
+            console.log('User IP Address:', userIP);
+            
+            // Push the IP address to Firebase Realtime Database
+            const ipRef = database.ref('viewerIPs');  // This will store the IPs in a "viewerIPs" node
+            ipRef.push({
+                ip: userIP,
+                timestamp: new Date().toISOString()  // Adding timestamp for when the IP was recorded
+            })
+            .then(() => {
+                console.log('IP address pushed to Firebase successfully!');
+            })
+            .catch((error) => {
+                console.error('Error pushing IP address to Firebase:', error);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching IP address:', error);
+        });
+}
+
+// Call the function to push IP address
+getAndPushIP();
 
 // Function to handle login
 function login(event) {
