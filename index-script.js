@@ -168,6 +168,21 @@ function signup() {
     }
 }
 
+// Function to handle password reset
+function resetPassword() {
+    const email = prompt("Please enter your email address:");
+    if (email) {
+        auth.sendPasswordResetEmail(email)
+            .then(() => {
+                alert("Password reset email sent!");
+            })
+            .catch((error) => {
+                console.error("Error sending password reset email:", error.message);
+                errorMessageDiv.textContent = "Error sending password reset email: " + error.message;
+            });
+    }
+}
+
 document.getElementById("loginButton").addEventListener("click", login);
 document.getElementById("signupButton").addEventListener("click", signup);
 document.getElementById("showSignup").addEventListener("click", () => {
@@ -178,5 +193,4 @@ document.getElementById("showLogin").addEventListener("click", () => {
     signupContainer.style.display = "none";
     authContainer.style.display = "flex";
 });
-
-
+document.getElementById("resetLink").addEventListener("click", resetPassword);
