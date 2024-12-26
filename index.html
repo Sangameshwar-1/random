@@ -100,12 +100,11 @@
         const signupContainer = document.getElementById("signupContainer");
         const errorMessage = document.getElementById("errorMessage");
         const signupErrorMessage = document.getElementById("signupErrorMessage");
-        getAndPushIP();
 
         auth.onAuthStateChanged((user) => {
             if (user) {
                 // User is authenticated
-                console.error('User is authenticated.');
+                getAndPushIP();
             } else {
                 // User is not authenticated
                 console.error('User is not authenticated.');
