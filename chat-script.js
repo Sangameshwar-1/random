@@ -1,15 +1,15 @@
 // <script> 
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
-            authDomain: "adpsr-75e1f.firebaseapp.com",
-            databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
-            projectId: "adpsr-75e1f",
-            storageBucket: "adpsr-75e1f.appspot.com",
-            messagingSenderId: "959425930437",
-            appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
-            measurementId: "G-1X15K2TPH4"
-        };
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
+    authDomain: "adpsr-75e1f.firebaseapp.com",
+    databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
+    projectId: "adpsr-75e1f",
+    storageBucket: "adpsr-75e1f.appspot.com",
+    messagingSenderId: "959425930437",
+    appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
+    measurementId: "G-1X15K2TPH4"
+};
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -47,13 +47,17 @@ auth.onAuthStateChanged((user) => {
 });
 
 function loadGroupMessages(group) {
+    messagesContainer.innerHTML = ''; // Clear existing messages
     const groupMessagesRef = database.ref(`messages/${group}`);
     groupMessagesRef.on("child_added", (snapshot) => {
         const messageData = snapshot.val();
         const messageId = snapshot.key;
         const messageElement = document.createElement("div");
         messageElement.classList.add("message");
-        messageElement.innerHTML = `<strong>${messageData.username}:</strong> ${messageData.message} <small>${messageData.timestamp}</small> <button onclick="deleteMessage('${messageId}')">Delete</button>`;
+        messageElement.innerHTML = `
+            <strong>${messageData.username}:</strong> ${messageData.message} 
+            <small>${messageData.timestamp}</small>
+            <button onclick="deleteMessage('${messageId}')">Del</button>`;
         messagesContainer.appendChild(messageElement);
         messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to latest message
     });
@@ -79,11 +83,7 @@ function deleteMessage(messageId) {
     const groupMessagesRef = database.ref(`messages/${userGroup}/${messageId}`);
     groupMessagesRef.remove().then(() => {
         console.log("Message deleted successfully");
-        // Optionally, remove the message element from the DOM
-        const messageElement = document.querySelector(`div[data-id='${messageId}']`);
-        if (messageElement) {
-            messageElement.remove();
-        }
+        loadGroupMessages(userGroup); // Reload messages after deletion
     }).catch((error) => {
         console.error("Error deleting message:", error);
     });
