@@ -49,6 +49,7 @@ auth.onAuthStateChanged((user) => {
 function loadGroupMessages(group) {
     messagesContainer.innerHTML = ''; // Clear existing messages
     const groupMessagesRef = database.ref(`messages/${group}`);
+    groupMessagesRef.off(); // Remove any existing listeners to avoid duplicates
     groupMessagesRef.on("child_added", (snapshot) => {
         const messageData = snapshot.val();
         const messageId = snapshot.key;
