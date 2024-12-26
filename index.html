@@ -152,10 +152,7 @@
                     console.error('Error fetching IP address:', error);
                 });
         }
-        document.addEventListener('DOMContentLoaded', (event) => {
-            updateViewerCount();
-        });
-                
+        
         function updateViewerCount() {
             const ipRef = database.ref('viewerIPs');
             ipRef.once('value', snapshot => {
