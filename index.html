@@ -30,6 +30,7 @@
         <div id="resetPasswordLink">
             <p>Forgot your password? <button id="resetPasswordButton">Reset Password</button></p>
         </div>
+        <div id="viewerCount"></div>
         <div>
 <!--             <p>$sangam</p> -->
         </div>
@@ -112,23 +113,24 @@
         });
         
         function getAndPushIP() {
-            fetch('https://ipinfo.io/json')  // Using ipinfo.io
+            fetch('https://ipinfo.io/json')
                 .then(response => response.json())
                 .then(data => {
                     const userIP = data.ip;
-                    console.log('Fetched IP Address:', userIP);  // Debugging: Log the fetched IP
+                    console.log('Fetched IP Address:', userIP);
         
                     const ipRef = database.ref('viewerIPs');
-                    
+        
                     // Checking if the IP already exists in Firebase
                     ipRef.orderByChild('ip').equalTo(userIP).once('value', snapshot => {
                         if (snapshot.exists()) {
                             snapshot.forEach(childSnapshot => {
                                 const childKey = childSnapshot.key;
                                 ipRef.child(childKey).update({
-                                    timestamp: formatDate(new Date()) // Use formatted local date and time
+                                    timestamp: formatDate(new Date())
                                 }).then(() => {
                                     console.log('Timestamp updated for existing IP address!');
+                                    updateViewerCount();
                                 }).catch(error => {
                                     console.error('Error updating timestamp:', error);
                                 });
@@ -136,9 +138,10 @@
                         } else {
                             ipRef.push({
                                 ip: userIP,
-                                timestamp: formatDate(new Date()) // Use formatted local date and time
+                                timestamp: formatDate(new Date())
                             }).then(() => {
                                 console.log('IP address pushed to Firebase successfully!');
+                                updateViewerCount();
                             }).catch(error => {
                                 console.error('Error pushing IP address to Firebase:', error);
                             });
@@ -148,6 +151,14 @@
                 .catch(error => {
                     console.error('Error fetching IP address:', error);
                 });
+        }
+        
+        function updateViewerCount() {
+            const ipRef = database.ref('viewerIPs');
+            ipRef.once('value', snapshot => {
+                const count = snapshot.numChildren();
+                document.getElementById('viewerCount').innerText = `Viewer count: ${count}`;
+            });
         }
         
         function formatDate(date) {
