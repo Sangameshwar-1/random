@@ -53,12 +53,13 @@ function loadGroupMessages(group) {
     groupMessagesRef.on("child_added", (snapshot) => {
         const messageData = snapshot.val();
         const messageId = snapshot.key;
+        const currentUser = auth.currentUser ? auth.currentUser.uid : "anonymous";
         const messageElement = document.createElement("div");
         messageElement.classList.add("message");
         messageElement.innerHTML = `
             <strong>${messageData.username}:</strong> ${messageData.message} 
             <small>${messageData.timestamp}</small>
-            <button onclick="deleteMessage('${messageId}')">Del</button>`;
+            ${messageData.userId === currentUser ? `<button onclick="deleteMessage('${messageId}')">Del</button>` : ''}`;
         messagesContainer.appendChild(messageElement);
         messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to latest message
     });
@@ -68,10 +69,12 @@ function sendMessage() {
     const message = messageInput.value.trim();
     if (message && userGroup) {
         const timestamp = new Date().toISOString();
+        const userId = auth.currentUser ? auth.currentUser.uid : "anonymous";
         const username = auth.currentUser ? auth.currentUser.displayName || "Anonymous" : "Anonymous";
 
         const groupMessagesRef = database.ref(`messages/${userGroup}`);
         groupMessagesRef.push({
+            userId: userId,
             username: username,
             message: message,
             timestamp: formatDate(timestamp)
