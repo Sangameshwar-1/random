@@ -1,1 +1,65 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts List</title>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+</head>
+<body>
+    <h1>Contacts List</h1>
+    <div id="contacts"></div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
+            authDomain: "adpsr-75e1f.firebaseapp.com",
+            databaseURL: "https://adpsr-75e1f-default-rtdb.firebaseio.com",
+            projectId: "adpsr-75e1f",
+            storageBucket: "adpsr-75e1f.appspot.com",
+            messagingSenderId: "959425930437",
+            appId: "1:959425930437:web:cd3bae057e5b657a32fcac",
+            measurementId: "G-1X15K2TPH4"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        // Load contacts
+        function loadContacts() {
+            const contactsContainer = document.getElementById("contacts");
+            contactsContainer.innerHTML = ''; // Clear existing contacts
+
+            const usersRef = database.ref('users');
+            usersRef.on('child_added', (snapshot) => {
+                const userData = snapshot.val();
+                const userId = snapshot.key;
+
+                if (userData) {
+                    const userElement = document.createElement("div");
+                    userElement.classList.add("contact");
+                    userElement.innerHTML = `
+                        <a href="contact.html?userId=${userId}">${userData.displayName || 'Anonymous'}</a>
+                    `;
+                    contactsContainer.appendChild(userElement);
+                }
+            });
+        }
+
+        // Check authentication state
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                loadContacts();
+            } else {
+                window.location.href = "index.html";
+            }
+        });
+    </script>
+</body>
+</html>
