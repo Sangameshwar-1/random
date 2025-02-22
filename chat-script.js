@@ -135,7 +135,7 @@ async function sendMessage() {
         const groupMessagesRef = firebase.database().ref(`messages/${userGroup}`);
         
         groupMessagesRef.push({
-            userId: userId,
+            //userId: userId,
             username: username,
             message: encryptedMessage,
             timestamp: formatDate(timestamp)
