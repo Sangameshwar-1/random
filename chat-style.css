@@ -21,7 +21,7 @@
             
             @media only screen and (max-width: 600px) {
                 .chat-container {
-                    width: 96%;
+                    width: 98%;
                 }
                 .head {
                     flex-direction: column;
@@ -108,7 +108,7 @@
                 flex-direction: column;
                 height: 300px; /* Fixed height for the container */
                 scrollbar-width: none; /* Hides scrollbar in Firefox */
-                width: 90%; /* Increase width to fill the container */
+                width: 95%; /* Increase width to fill the container */
             }
             
             .messages::-webkit-scrollbar {
