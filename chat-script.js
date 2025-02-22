@@ -1,4 +1,3 @@
-// <script> 
 // Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBQOhH2t5XPieLGlM3anZYco06-PvQt37c",
@@ -46,6 +45,25 @@ auth.onAuthStateChanged((user) => {
     }
 });
 
+function encrypt(text, shift) {
+    let result = "";
+    for (let char of text) {
+        if (char.match(/[a-zA-Z]/)) {
+            let shiftAmount = shift % 26;
+            let base = char === char.toUpperCase() ? 65 : 97;
+            let newChar = String.fromCharCode(((char.charCodeAt(0) - base + shiftAmount) % 26) + base);
+            result += newChar;
+        } else {
+            result += char;
+        }
+    }
+    return result;
+}
+
+function decrypt(text, shift) {
+    return encrypt(text, -shift);
+}
+
 function loadGroupMessages(group) {
     messagesContainer.innerHTML = ''; // Clear existing messages
     const groupMessagesRef = database.ref(`messages/${group}`);
@@ -54,10 +72,11 @@ function loadGroupMessages(group) {
         const messageData = snapshot.val();
         const messageId = snapshot.key;
         const currentUser = auth.currentUser ? auth.currentUser.uid : "anonymous";
+        const decryptedMessage = decrypt(messageData.message, 3); // Decrypt message before displaying
         const messageElement = document.createElement("div");
         messageElement.classList.add("message");
         messageElement.innerHTML = `
-            <strong>${messageData.username}:</strong> ${messageData.message} 
+            <strong>${messageData.username}:</strong> ${decryptedMessage} 
             <small>${messageData.timestamp}</small>
             ${messageData.userId === currentUser ? `<button onclick="deleteMessage('${messageId}')">Del</button>` : ''}`;
         messagesContainer.appendChild(messageElement);
@@ -67,20 +86,30 @@ function loadGroupMessages(group) {
 
 function sendMessage() {
     const message = messageInput.value.trim();
+    
     if (message && userGroup) {
         const timestamp = new Date().toISOString();
         const userId = auth.currentUser ? auth.currentUser.uid : "anonymous";
         const username = auth.currentUser ? auth.currentUser.displayName || "Anonymous" : "Anonymous";
 
-        const groupMessagesRef = database.ref(`messages/${userGroup}`);
+        const encryptedMessage = encrypt(message, 3); // Encrypt message with shift key 3
+
+        const groupMessagesRef = firebase.database().ref(`messages/${userGroup}`);
+        
         groupMessagesRef.push({
             userId: userId,
             username: username,
-            message: message,
+            message: encryptedMessage,
             timestamp: formatDate(timestamp)
         });
+
         messageInput.value = "";
     }
+}
+
+function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    return date.toLocaleString();
 }
 
 function deleteMessage(messageId) {
@@ -101,11 +130,6 @@ messageInput.addEventListener("keypress", (e) => {
     }
 });
 
-function formatDate(timestamp) {
-    const date = new Date(timestamp);
-    return date.toLocaleString();
-}
-
 // Logout function
 document.getElementById("logoutButton").addEventListener("click", () => {
     auth.signOut().then(() => {
@@ -114,4 +138,3 @@ document.getElementById("logoutButton").addEventListener("click", () => {
         console.error("Error signing out:", error);
     });
 });
-// </script>
