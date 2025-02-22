@@ -29,6 +29,7 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const database = firebase.database();
+        let userGroup = ""; // Define user group globally
 
         // Load contacts
         function loadContacts() {
@@ -52,8 +53,10 @@
         }
 
         // Fetch and display group members
-        function fetchGroupMembers(group) {
-            const groupRef = database.ref(`groups/${group}/members`);
+        function fetchGroupMembers() {
+            if (!userGroup) return;
+
+            const groupRef = database.ref(`groups/${userGroup}/members`);
             groupRef.once("value").then((snapshot) => {
                 const members = snapshot.val();
                 if (members) {
@@ -86,8 +89,8 @@
                 userRef.once("value").then((snapshot) => {
                     const userData = snapshot.val();
                     if (userData && userData.group) {
-                        const userGroup = userData.group;
-                        fetchGroupMembers(userGroup);
+                        userGroup = userData.group;
+                        fetchGroupMembers();
                     }
                 }).catch((error) => {
                     console.error("Error fetching user data:", error);
