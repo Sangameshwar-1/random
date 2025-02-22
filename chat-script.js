@@ -45,34 +45,72 @@ auth.onAuthStateChanged((user) => {
     }
 });
 
-function encrypt(text, shift) {
-    let result = "";
-    for (let char of text) {
-        if (char.match(/[a-zA-Z]/)) {
-            let shiftAmount = shift % 26;
-            let base = char === char.toUpperCase() ? 65 : 97;
-            let newChar = String.fromCharCode(((char.charCodeAt(0) - base + shiftAmount) % 26) + base);
-            result += newChar;
-        } else {
-            result += char;
-        }
-    }
-    return result;
+// Encrypt Function
+async function encryptText(text, key) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+
+    // Convert key to CryptoKey
+    const cryptoKey = await crypto.subtle.importKey(
+        "raw",
+        encoder.encode(key.padEnd(16, ' ')), // Ensure key is 16 bytes
+        { name: "AES-GCM" },
+        false,
+        ["encrypt"]
+    );
+
+    // Generate a random IV (Initialization Vector)
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+
+    // Encrypt the data
+    const encrypted = await crypto.subtle.encrypt(
+        { name: "AES-GCM", iv },
+        cryptoKey,
+        data
+    );
+
+    // Combine IV and encrypted data, then Base64 encode
+    const encryptedArray = new Uint8Array([...iv, ...new Uint8Array(encrypted)]);
+    return btoa(String.fromCharCode(...encryptedArray));
 }
 
-function decrypt(text, shift) {
-    return encrypt(text, -shift);
+// Decrypt Function
+async function decryptText(encryptedText, key) {
+    const decoder = new TextDecoder();
+    const encryptedArray = Uint8Array.from(atob(encryptedText), c => c.charCodeAt(0));
+
+    // Extract IV (first 12 bytes) and encrypted data
+    const iv = encryptedArray.slice(0, 12);
+    const data = encryptedArray.slice(12);
+
+    // Convert key to CryptoKey
+    const cryptoKey = await crypto.subtle.importKey(
+        "raw",
+        new TextEncoder().encode(key.padEnd(16, ' ')), // Ensure key is 16 bytes
+        { name: "AES-GCM" },
+        false,
+        ["decrypt"]
+    );
+
+    // Decrypt the data
+    const decrypted = await crypto.subtle.decrypt(
+        { name: "AES-GCM", iv },
+        cryptoKey,
+        data
+    );
+
+    return decoder.decode(decrypted);
 }
 
-function loadGroupMessages(group) {
+async function loadGroupMessages(group) {
     messagesContainer.innerHTML = ''; // Clear existing messages
     const groupMessagesRef = database.ref(`messages/${group}`);
     groupMessagesRef.off(); // Remove any existing listeners to avoid duplicates
-    groupMessagesRef.on("child_added", (snapshot) => {
+    groupMessagesRef.on("child_added", async (snapshot) => {
         const messageData = snapshot.val();
         const messageId = snapshot.key;
         const currentUser = auth.currentUser ? auth.currentUser.uid : "anonymous";
-        const decryptedMessage = decrypt(messageData.message, 3); // Decrypt message before displaying
+        const decryptedMessage = await decryptText(messageData.message, "my_secret_key"); // Decrypt message before displaying
         const messageElement = document.createElement("div");
         messageElement.classList.add("message");
         messageElement.innerHTML = `
@@ -84,7 +122,7 @@ function loadGroupMessages(group) {
     });
 }
 
-function sendMessage() {
+async function sendMessage() {
     const message = messageInput.value.trim();
     
     if (message && userGroup) {
@@ -92,7 +130,7 @@ function sendMessage() {
         const userId = auth.currentUser ? auth.currentUser.uid : "anonymous";
         const username = auth.currentUser ? auth.currentUser.displayName || "Anonymous" : "Anonymous";
 
-        const encryptedMessage = encrypt(message, 3); // Encrypt message with shift key 3
+        const encryptedMessage = await encryptText(message, "my_secret_key"); // Encrypt message
 
         const groupMessagesRef = firebase.database().ref(`messages/${userGroup}`);
         
