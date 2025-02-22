@@ -115,7 +115,7 @@ async function loadGroupMessages(group) {
         messageElement.classList.add("message");
         messageElement.innerHTML = `
             <strong>${messageData.username}:</strong> ${decryptedMessage} 
-            <small>${messageData.timestamp}</small>
+            <h6><small>${messageData.timestamp}</small></h6>
             ${messageData.userId === currentUser ? `<button onclick="deleteMessage('${messageId}')">Del</button>` : ''}`;
         messagesContainer.appendChild(messageElement);
         messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to latest message
