@@ -7,28 +7,66 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
+      background-color: #f4f7f9;
       color: #333;
-      margin: 20px;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+    }
+    h2 {
+      color: #34495e;
+      border-bottom: 2px solid #ecf0f1;
+      padding-bottom: 5px;
+    }
+    p {
+      font-size: 16px;
       line-height: 1.6;
     }
-    h1, h2 {
-      color: #2c3e50;
-    }
     ul {
-      list-style: disc inside;
-      margin: 10px 0;
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      padding: 8px 0;
+      position: relative;
+      padding-left: 20px;
+    }
+    ul li::before {
+      content: "✔";
+      color: #27ae60;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: 4px;
     }
     a {
       color: #2980b9;
+      text-decoration: none;
+      font-weight: bold;
     }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
+    a:hover {
+      text-decoration: underline;
+    }
+    .image-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .image-container img {
+      max-width: 100%;
+      height: auto;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
@@ -43,12 +81,14 @@
       <li>Anonymous usage data to improve our services.</li>
       <li>Chat messages and communications.</li>
       <li>Group affiliation details to manage group functionalities.</li>
-<!--       <li>Technical data such as IP addresses, browser types, and device information.</li> -->
     </ul>
     
     <h2>2. Encryption and Data Security</h2>
     <p>Your security is our priority. We employ state-of-the-art encryption protocols to secure all data transmissions between your device and our servers. This ensures that your messages are encrypted while in transit, protecting them from interception.</p>
-    <img src="Screenshot 2025-02-23 012938.png" alt="Privacy Policy Image" width="200">
+    
+    <div class="image-container">
+      <img src="Screenshot 2025-02-23 012938.png" alt="Privacy Policy Image">
+    </div>
 
     <h2>3. Group Message Visibility</h2>
     <p>Our platform is designed for group interactions. As a result, messages sent within a group are accessible to all members of that group. While encryption protects the data during transmission, once messages are stored on our servers, they can be viewed by all group participants. For one-on-one conversations, please use our direct messaging feature, which offers end-to-end encryption for enhanced privacy.</p>
