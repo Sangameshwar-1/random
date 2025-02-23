@@ -135,6 +135,7 @@
             
             .message {
                 display: flex;
+                margin-left:auto
                 justify-content: space-between;
                 width: 100%;
             }
