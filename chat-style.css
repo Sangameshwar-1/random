@@ -21,7 +21,7 @@
             
             @media only screen and (max-width: 600px) {
                 .chat-container {
-                    width: 98%;
+                    width: 100%;
                 }
                 .head {
                     flex-direction: column;
@@ -36,7 +36,7 @@
             }
             
             .head, .footer {
-                width: 101%;
+                width: 100%;
                 max-width: none ; /* no restriction for max width*/ 
                 margin: auto; /* Center the container */
                 position: relative;
@@ -45,7 +45,7 @@
             
             .head {
                 text-align: center;
-                padding: 20px;
+                padding: 15px;
                 background-color: rgba(51, 8, 225, 0.2); /* Slightly transparent background */
                 color: rgb(251, 250, 250);
                 border-radius: 8px;
@@ -78,14 +78,15 @@
                 color: white;
                 border-radius: 8px;
                 margin-top: 20px;
-                max-width: 101%; /* Ensure it does not exceed the container width */
+                width: 104% ; /* Ensure it does not exceed the container width */
                 box-sizing: border-box; /* Include padding and border in the element's total width and height */
             }
             
             .chat-container {
-                width: 98%;
+                width: 100%;
                 flex-grow: 1;
-                padding: 20px;
+                padding: 30px;
+                margin-left: 24px ;
                 box-sizing: border-box;
                 background-color: rgba(251, 247, 251, 0.1); /* Increase transparency */
                 border-radius: 8px;
@@ -101,14 +102,15 @@
                 overflow-y: auto; /* Enables vertical scrolling */
                 margin-bottom: 10px;
                 border: 1px solid #ddd;
-                padding: 10px;
+                padding: 15px;
                 background-color: rgba(249, 249, 249, 0.3); /* Increase transparency */
                 border-radius: 4px;
                 display: flex;
                 flex-direction: column;
                 height: 300px; /* Fixed height for the container */
                 scrollbar-width: none; /* Hides scrollbar in Firefox */
-                width: 95%; /* Increase width to fill the container */
+                
+                width: 100%; /* Increase width to fill the container */
             }
             
             .messages::-webkit-scrollbar {
